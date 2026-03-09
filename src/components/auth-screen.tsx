@@ -83,6 +83,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
   const [tempSession, setTempSession] = useState<any>(null);
   const [profile, setProfile] = useState({
     age: '', gender: '', height: '', city: '',
+    religion: '', drinking: '', smoking: '', lookingFor: '',
     bio: '', education: '', jobTitle: '', company: '',
     interests: [] as string[],
     interestedIn: '', ageRangeMin: '18', ageRangeMax: '35', distancePref: '25',
@@ -227,6 +228,10 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
             gender: profile.gender,
             height: profile.height,
             city: profile.city,
+            religion: profile.religion,
+            drinking: profile.drinking,
+            smoking: profile.smoking,
+            lookingFor: profile.lookingFor,
             bio: profile.bio,
             education: profile.education,
             jobTitle: profile.jobTitle,
@@ -349,7 +354,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
 
               {/* ─── Step 1: About You ─── */}
               {wizardStep === 1 && (
-                <>
+                <div className="space-y-4">
                   <div>
                     <h2 className="text-2xl font-bold gradient-text" style={{ fontFamily: 'Outfit, sans-serif' }}>About You</h2>
                     <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>Share a little more to stand out</p>
@@ -360,31 +365,69 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
                       value={profile.bio}
                       onChange={e => setProfile(p => ({ ...p, bio: e.target.value }))}
                       placeholder="What makes you unique? Write a few lines…"
-                      rows={4}
+                      rows={2}
                       maxLength={300}
                       className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none focus:ring-1 focus:ring-pink-500/40"
                       style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)', color: '#fff', caretColor: '#d946ef' }}
                     />
-                    <p className="text-right text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>{profile.bio.length}/300</p>
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Education</label>
-                    <GlassInput icon={GraduationCap} value={profile.education}
-                      onChange={(e: any) => setProfile(p => ({ ...p, education: e.target.value }))} placeholder="e.g. IIT Delhi — B.Tech CS" />
-                  </div>
+
                   <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Education</label>
+                      <GlassInput icon={GraduationCap} value={profile.education}
+                        onChange={(e: any) => setProfile(p => ({ ...p, education: e.target.value }))} placeholder="e.g. IIT Delhi" />
+                    </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Job Title</label>
                       <GlassInput icon={Briefcase} value={profile.jobTitle}
-                        onChange={(e: any) => setProfile(p => ({ ...p, jobTitle: e.target.value }))} placeholder="Your role" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Company</label>
-                      <GlassInput value={profile.company}
-                        onChange={(e: any) => setProfile(p => ({ ...p, company: e.target.value }))} placeholder="Company" />
+                        onChange={(e: any) => setProfile(p => ({ ...p, jobTitle: e.target.value }))} placeholder="e.g. Engineer" />
                     </div>
                   </div>
-                </>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Religion</label>
+                      <GlassSelect value={profile.religion} onChange={(e: any) => setProfile(p => ({ ...p, religion: e.target.value }))}>
+                        <option value="" disabled>Select</option>
+                        {['Hindu', 'Muslim', 'Christian', 'Sikh', 'Buddhist', 'Jain', 'Other', 'Atheist'].map(r => (
+                          <option key={r} value={r}>{r}</option>
+                        ))}
+                      </GlassSelect>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Looking For</label>
+                      <GlassSelect value={profile.lookingFor} onChange={(e: any) => setProfile(p => ({ ...p, lookingFor: e.target.value }))}>
+                        <option value="" disabled>Select</option>
+                        <option value="Long-term partner">Long-term partner</option>
+                        <option value="Casual dating">Casual dating</option>
+                        <option value="New friends">New friends</option>
+                        <option value="Not sure yet">Not sure yet</option>
+                      </GlassSelect>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Drinking</label>
+                      <GlassSelect value={profile.drinking} onChange={(e: any) => setProfile(p => ({ ...p, drinking: e.target.value }))}>
+                        <option value="" disabled>Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Occasionally">Occasionally</option>
+                      </GlassSelect>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Smoking</label>
+                      <GlassSelect value={profile.smoking} onChange={(e: any) => setProfile(p => ({ ...p, smoking: e.target.value }))}>
+                        <option value="" disabled>Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Occasionally">Occasionally</option>
+                      </GlassSelect>
+                    </div>
+                  </div>
+                </div>
               )}
 
               {/* ─── Step 2: Interests ─── */}
@@ -525,88 +568,164 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
     );
   }
 
+  /* ─── Floating hearts data ─── */
+  const HEARTS = [
+    { emoji: '💕', left: '5%', duration: 12, delay: 0, size: '1.1rem' },
+    { emoji: '❤️', left: '15%', duration: 14, delay: 2, size: '0.9rem' },
+    { emoji: '💗', left: '28%', duration: 11, delay: 4, size: '1.3rem' },
+    { emoji: '💖', left: '45%', duration: 16, delay: 1, size: '1rem' },
+    { emoji: '❤️', left: '62%', duration: 13, delay: 3, size: '1.2rem' },
+    { emoji: '💕', left: '78%', duration: 15, delay: 5, size: '0.8rem' },
+    { emoji: '💗', left: '88%', duration: 10, delay: 2.5, size: '1.1rem' },
+    { emoji: '💖', left: '95%', duration: 17, delay: 6, size: '0.9rem' },
+  ];
+
+  const LOVE_QUOTES = [
+    '"Where hearts find their way home"',
+    '"Every love story is beautiful, but ours is my favourite"',
+    '"Two souls, one connection"',
+  ];
+
+  const [quoteIndex] = useState(() => Math.floor(Math.random() * LOVE_QUOTES.length));
+
+  /* ─── Cursor glow handler ─── */
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  };
+
+  /* ─── Google SVG icon (reusable) ─── */
+  const GoogleIcon = ({ size = 'w-5 h-5' }: { size?: string }) => (
+    <svg className={size} viewBox="0 0 24 24">
+      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
+      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A11 11 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+    </svg>
+  );
+
   /* ═══════════════════════════════════════════════
      RENDER: WELCOME / LOGIN / SIGNUP
      ═══════════════════════════════════════════════ */
   return (
-    <div className="sanjog-bg min-h-screen min-h-dvh flex flex-col items-center justify-center px-5 py-10 relative overflow-hidden">
+    <div
+      className="auth-bg cursor-glow flex flex-col items-center justify-center px-6 py-10 relative overflow-hidden"
+      onMouseMove={handleMouseMove}
+    >
       {/* Decorative background orbs */}
-      <div className="absolute top-20 left-10 w-72 h-72 rounded-full opacity-20 blur-3xl pointer-events-none"
+      <div className="absolute top-20 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
         style={{ background: 'radial-gradient(circle, #f43f5e, transparent)' }} />
-      <div className="absolute bottom-20 right-10 w-72 h-72 rounded-full opacity-15 blur-3xl pointer-events-none"
+      <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full opacity-15 blur-3xl pointer-events-none"
         style={{ background: 'radial-gradient(circle, #8b5cf6, transparent)' }} />
+      <div className="absolute top-1/2 left-1/2 w-64 h-64 rounded-full opacity-10 blur-3xl pointer-events-none -translate-x-1/2 -translate-y-1/2"
+        style={{ background: 'radial-gradient(circle, #d946ef, transparent)' }} />
+
+      {/* Floating hearts */}
+      {HEARTS.map((h, i) => (
+        <span
+          key={i}
+          className="floating-heart"
+          style={{
+            left: h.left,
+            fontSize: h.size,
+            animationDuration: `${h.duration}s`,
+            animationDelay: `${h.delay}s`,
+          }}
+        >
+          {h.emoji}
+        </span>
+      ))}
 
       <AnimatePresence mode="wait">
         {/* ─── WELCOME LANDING ─── */}
         {view === 'welcome' && (
           <motion.div key="welcome"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.35 }} className="w-full max-w-sm text-center space-y-8"
+            transition={{ duration: 0.4 }} className="w-full max-w-md text-center space-y-8 relative z-10"
           >
             {/* Logo */}
             <div className="space-y-4">
               <motion.div
                 initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto"
-                style={{ background: 'linear-gradient(135deg, #f43f5e, #d946ef, #8b5cf6)' }}
+                className="w-28 h-28 rounded-3xl overflow-hidden mx-auto pulse-glow shadow-2xl border border-white/10"
               >
-                <Sparkles className="w-10 h-10 text-white" />
+                <img src="/sanjog-logo.png" alt="Sanjog Logo" className="w-full h-full object-cover backdrop-blur-lg" />
               </motion.div>
               <div>
-                <h1 className="gradient-text text-4xl font-bold" style={{ fontFamily: 'Outfit, sans-serif' }}>Sanjog</h1>
-                <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>AI-powered connections, made for you</p>
+                <h1 className="gradient-text-animated text-6xl font-bold" style={{ fontFamily: 'Outfit, sans-serif' }}>Sanjog</h1>
+                <p className="text-[15px] mt-2 tracking-wide" style={{ color: 'rgba(255,255,255,0.6)' }}>AI-powered connections, made for you</p>
               </div>
             </div>
 
             {/* Features preview */}
-            <div className="space-y-2">
-              {['🤖 AI matches based on personality', '💬 Smart conversation starters', '📍 Location-aware date planning'].map((f, i) => (
-                <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 + i * 0.1 }}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-left"
-                  style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.65)' }}
+            <div className="space-y-3.5 pt-2 pb-4 text-left">
+              {[
+                {
+                  icon: '🤖', title: 'AI Matchmaking', desc: 'Find matches based on deep personality compatibility',
+                  bg: 'rgba(244,63,94,0.1)', border: 'rgba(244,63,94,0.2)', color: '#f43f5e'
+                },
+                {
+                  icon: '💬', title: 'Smart Icebreakers', desc: 'Personalized prompts tailored to your match',
+                  bg: 'rgba(217,70,239,0.1)', border: 'rgba(217,70,239,0.2)', color: '#d946ef'
+                },
+                {
+                  icon: '📍', title: 'Perfect Dates', desc: 'Curated date recommendations near you',
+                  bg: 'rgba(139,92,246,0.1)', border: 'rgba(139,92,246,0.2)', color: '#8b5cf6'
+                },
+              ].map((f, i) => (
+                <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + i * 0.12 }}
+                  className="flex items-center gap-4 p-4 rounded-2xl glass-card relative overflow-hidden group"
                 >
-                  {f}
+                  <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-[100px] opacity-20 transition-opacity group-hover:opacity-40"
+                    style={{ background: `radial-gradient(circle at top right, ${f.color}, transparent)` }} />
+                  <div className="w-12 h-12 rounded-[14px] flex items-center justify-center flex-shrink-0 text-xl z-10 transition-transform group-hover:scale-110"
+                    style={{ background: f.bg, border: `1px solid ${f.border}` }}>
+                    {f.icon}
+                  </div>
+                  <div className="z-10">
+                    <h5 className="font-bold text-[15px] text-white tracking-wide">{f.title}</h5>
+                    <p className="text-[13px] mt-0.5 leading-snug" style={{ color: 'rgba(255,255,255,0.55)' }}>{f.desc}</p>
+                  </div>
                 </motion.div>
               ))}
             </div>
 
             {/* CTA Buttons */}
-            <div className="space-y-3 pt-2">
+            <div className="space-y-4 pt-3">
               {/* Google button */}
-              <motion.button whileTap={{ scale: 0.97 }} onClick={handleGoogleLogin} disabled={loading}
-                className="w-full py-3.5 rounded-2xl text-sm font-semibold flex items-center justify-center gap-3 transition-all disabled:opacity-50"
-                style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', color: '#fff' }}
+              <motion.button
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                onClick={handleGoogleLogin} disabled={loading}
+                className="btn-auth btn-auth-google disabled:opacity-50"
               >
-                <svg className="w-5 h-5" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A11 11 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                </svg>
-                Continue with Google
+                <GoogleIcon size="w-6 h-6" />
+                <span>Continue with Google</span>
               </motion.button>
 
               {/* Divider */}
-              <div className="flex items-center gap-3">
-                <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
-                <span className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>or</span>
-                <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
+              <div className="flex items-center gap-4">
+                <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }} />
+                <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.3)' }}>or</span>
+                <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }} />
               </div>
 
               {/* Email Sign In */}
-              <motion.button whileTap={{ scale: 0.97 }} onClick={() => setView('login')}
-                className="w-full py-3.5 rounded-2xl text-sm font-semibold text-white btn-glow flex items-center justify-center gap-2"
+              <motion.button
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                onClick={() => setView('login')}
+                className="btn-auth btn-auth-primary"
               >
-                <Mail className="w-4 h-4" />
-                Sign in with Email
+                <Mail className="w-5 h-5" />
+                <span>Sign in with Email</span>
               </motion.button>
 
               {/* Sign Up link */}
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              <p className="text-base pt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
                 New here?{' '}
-                <button onClick={() => setView('signup')} className="font-semibold" style={{ color: '#d946ef' }}>
+                <button onClick={() => setView('signup')} className="font-bold underline underline-offset-4" style={{ color: '#d946ef' }}>
                   Create Account
                 </button>
               </p>
@@ -618,44 +737,51 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
         {view === 'login' && (
           <motion.div key="login"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }} className="w-full max-w-sm space-y-6"
+            transition={{ duration: 0.3 }} className="w-full max-w-md space-y-6 relative z-10"
           >
             {/* Back button */}
-            <button onClick={() => { setView('welcome'); setError(''); }} className="flex items-center gap-1.5 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <button onClick={() => { setView('welcome'); setError(''); }}
+              className="flex items-center gap-2 text-sm px-3 py-2 rounded-xl transition-all hover:bg-white/5"
+              style={{ color: 'rgba(255,255,255,0.5)' }}
+            >
               <ArrowLeft className="w-4 h-4" /> Back
             </button>
 
             <div>
-              <h2 className="text-2xl font-bold gradient-text" style={{ fontFamily: 'Outfit, sans-serif' }}>Welcome Back</h2>
-              <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>Sign in to continue</p>
+              <h2 className="text-3xl font-bold gradient-text" style={{ fontFamily: 'Outfit, sans-serif' }}>Welcome Back</h2>
+              <p className="text-sm mt-2 italic" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                "Love is just a heartbeat away" 💗
+              </p>
             </div>
 
             {error && (
-              <div className="px-4 py-2.5 rounded-xl text-sm" style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5' }}>
+              <div className="px-4 py-3 rounded-2xl text-sm" style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5' }}>
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleEmailLogin} className="space-y-4">
-              <div className="space-y-1.5">
+            <form onSubmit={handleEmailLogin} className="space-y-5">
+              <div className="space-y-2">
                 <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Email</label>
                 <GlassInput icon={Mail} type="email" value={email} onChange={(e: any) => setEmail(e.target.value)} placeholder="you@example.com" required />
               </div>
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Password</label>
                 <GlassInput icon={Lock} type="password" value={password} onChange={(e: any) => setPassword(e.target.value)} placeholder="••••••••" required />
               </div>
 
-              <motion.button whileTap={{ scale: 0.97 }} type="submit" disabled={loading}
-                className="w-full py-3.5 rounded-2xl text-sm font-semibold text-white btn-glow disabled:opacity-50"
+              <motion.button
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                type="submit" disabled={loading}
+                className="btn-auth btn-auth-primary disabled:opacity-50"
               >
                 {loading ? 'Signing in…' : 'Sign In'}
               </motion.button>
             </form>
 
-            <p className="text-sm text-center" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <p className="text-base text-center" style={{ color: 'rgba(255,255,255,0.45)' }}>
               Don't have an account?{' '}
-              <button onClick={() => { setView('signup'); setError(''); }} className="font-semibold" style={{ color: '#d946ef' }}>
+              <button onClick={() => { setView('signup'); setError(''); }} className="font-bold underline underline-offset-4" style={{ color: '#d946ef' }}>
                 Sign Up
               </button>
             </p>
@@ -666,72 +792,75 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
         {view === 'signup' && (
           <motion.div key="signup"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }} className="w-full max-w-sm space-y-6"
+            transition={{ duration: 0.3 }} className="w-full max-w-md space-y-6 relative z-10"
           >
-            <button onClick={() => { setView('welcome'); setError(''); }} className="flex items-center gap-1.5 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <button onClick={() => { setView('welcome'); setError(''); }}
+              className="flex items-center gap-2 text-sm px-3 py-2 rounded-xl transition-all hover:bg-white/5"
+              style={{ color: 'rgba(255,255,255,0.5)' }}
+            >
               <ArrowLeft className="w-4 h-4" /> Back
             </button>
 
             <div>
-              <h2 className="text-2xl font-bold gradient-text" style={{ fontFamily: 'Outfit, sans-serif' }}>Create Account</h2>
-              <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>Join Sanjog and find your perfect match</p>
+              <h2 className="text-3xl font-bold gradient-text" style={{ fontFamily: 'Outfit, sans-serif' }}>Create Account</h2>
+              <p className="text-sm mt-2 italic" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                "Your love story starts here" ✨
+              </p>
             </div>
 
             {error && (
-              <div className="px-4 py-2.5 rounded-xl text-sm" style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5' }}>
+              <div className="px-4 py-3 rounded-2xl text-sm" style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', color: '#fca5a5' }}>
                 {error}
               </div>
             )}
 
             <form onSubmit={handleEmailSignup} className="space-y-4">
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Full Name</label>
                 <GlassInput icon={User} value={name} onChange={(e: any) => setName(e.target.value)} placeholder="Your full name" required />
               </div>
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Email</label>
                 <GlassInput icon={Mail} type="email" value={email} onChange={(e: any) => setEmail(e.target.value)} placeholder="you@example.com" required />
               </div>
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Mobile Number</label>
                 <GlassInput icon={Phone} type="tel" value={phone} onChange={(e: any) => setPhone(e.target.value)} placeholder="+91 98765 43210" required />
               </div>
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Password</label>
                 <GlassInput icon={Lock} type="password" value={password} onChange={(e: any) => setPassword(e.target.value)} placeholder="Min 6 characters" required />
               </div>
 
-              <motion.button whileTap={{ scale: 0.97 }} type="submit" disabled={loading}
-                className="w-full py-3.5 rounded-2xl text-sm font-semibold text-white btn-glow disabled:opacity-50"
+              <motion.button
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                type="submit" disabled={loading}
+                className="btn-auth btn-auth-primary disabled:opacity-50"
               >
                 {loading ? 'Creating Account…' : 'Create Account'}
               </motion.button>
             </form>
 
             {/* Google alternate */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
-                <span className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>or</span>
-                <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }} />
+                <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.3)' }}>or</span>
+                <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }} />
               </div>
-              <motion.button whileTap={{ scale: 0.97 }} onClick={handleGoogleLogin} disabled={loading}
-                className="w-full py-3 rounded-2xl text-sm font-medium flex items-center justify-center gap-3 transition-all disabled:opacity-50"
-                style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.7)' }}
+              <motion.button
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                onClick={handleGoogleLogin} disabled={loading}
+                className="btn-auth btn-auth-google disabled:opacity-50"
               >
-                <svg className="w-4 h-4" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A11 11 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                </svg>
-                Sign up with Google
+                <GoogleIcon size="w-5 h-5" />
+                <span>Sign up with Google</span>
               </motion.button>
             </div>
 
-            <p className="text-sm text-center" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <p className="text-base text-center" style={{ color: 'rgba(255,255,255,0.45)' }}>
               Already have an account?{' '}
-              <button onClick={() => { setView('login'); setError(''); }} className="font-semibold" style={{ color: '#d946ef' }}>
+              <button onClick={() => { setView('login'); setError(''); }} className="font-bold underline underline-offset-4" style={{ color: '#d946ef' }}>
                 Sign In
               </button>
             </p>

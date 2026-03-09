@@ -73,8 +73,7 @@ export function ChatInterface({ session, chatHistory, onUpdateChatHistory, onBac
   const userCount = chatHistory.filter(m => m.role === 'user').length;
   const progress = Math.min((userCount / 8) * 100, 100);
 
-  // Safety Companion State (Mocking that a date is currently happening)
-  const [showSafetyCheckin, setShowSafetyCheckin] = useState(true);
+
 
   return (
     <div className="flex flex-col" style={{ height: '100dvh', background: 'linear-gradient(160deg, #080810 0%, #12112a 50%, #080810 100%)' }}>
@@ -126,31 +125,7 @@ export function ChatInterface({ session, chatHistory, onUpdateChatHistory, onBac
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6 relative">
 
-        {/* Safety Companion Banner */}
-        <AnimatePresence>
-          {showSafetyCheckin && (
-            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }}
-              className="p-4 rounded-2xl shadow-xl relative overflow-hidden"
-              style={{ background: 'linear-gradient(135deg, rgba(34,197,94,0.15), rgba(16,185,129,0.15))', border: '1px solid rgba(34,197,94,0.3)', backdropFilter: 'blur(10px)' }}>
-              <div className="flex justify-between items-start mb-2">
-                <div className="flex items-center gap-2">
-                  <Shield className="w-4 h-4" style={{ color: '#4ade80' }} />
-                  <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#4ade80' }}>Safety Companion</span>
-                </div>
-                <button onClick={() => setShowSafetyCheckin(false)} className="p-1 rounded-full bg-white/5"><span className="text-white/60 text-xs px-1">✕</span></button>
-              </div>
-              <p className="text-sm text-white font-medium mb-3">Hi! You've been on your date for 1 hour. Everything going okay?</p>
-              <div className="flex gap-2">
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowSafetyCheckin(false)} className="flex-1 py-2.5 rounded-xl text-xs font-bold flex justify-center items-center backdrop-blur-md transition-all" style={{ background: 'rgba(34,197,94,0.2)', border: '1px solid rgba(34,197,94,0.5)', color: '#4ade80' }}>
-                  👍 All Good!
-                </motion.button>
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => { alert('Emergency exit triggered. Calling saved emergency contact and showing fake incoming call screen.'); setShowSafetyCheckin(false); }} className="px-4 py-2.5 rounded-xl text-xs font-bold flex justify-center items-center backdrop-blur-md transition-all" style={{ background: 'rgba(244,63,94,0.2)', border: '1px solid rgba(244,63,94,0.5)', color: '#f43f5e' }}>
-                  🚨 Exit Plan
-                </motion.button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+
 
         {chatHistory.length === 0 ? (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-10 space-y-5">
