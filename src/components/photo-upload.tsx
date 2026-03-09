@@ -25,6 +25,7 @@ export function PhotoUpload({
   onComplete
 }: PhotoUploadProps) {
   const [uploading, setUploading] = useState(false);
+  const [compressing, setCompressing] = useState(false);
   const [loadingPhotos, setLoadingPhotos] = useState<Set<string>>(new Set());
   const [photoUrls, setPhotoUrls] = useState<Record<string, string>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -62,20 +63,53 @@ export function PhotoUpload({
     }
   };
 
-  // Helper: read a File as a resized data URL (max 800px wide to save space)
-  const fileToDataUrl = (file: File): Promise<string> => {
+  // Helper: compress an image to target size (~400KB) using iterative quality reduction
+  const compressImage = (file: File): Promise<string> => {
+    const TARGET_SIZE = 400 * 1024; // 400KB target
+    const MAX_DIMENSION = 1200; // max width or height
+    const INITIAL_QUALITY = 0.85;
+    const MIN_QUALITY = 0.4;
+    const QUALITY_STEP = 0.05;
+
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
         const img = new Image();
         img.onload = () => {
-          const MAX = 800;
+          // Resize to fit within MAX_DIMENSION on longest side
           let w = img.width, h = img.height;
-          if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+          if (w > MAX_DIMENSION || h > MAX_DIMENSION) {
+            if (w > h) {
+              h = Math.round(h * MAX_DIMENSION / w);
+              w = MAX_DIMENSION;
+            } else {
+              w = Math.round(w * MAX_DIMENSION / h);
+              h = MAX_DIMENSION;
+            }
+          }
+
           const canvas = document.createElement('canvas');
-          canvas.width = w; canvas.height = h;
+          canvas.width = w;
+          canvas.height = h;
           canvas.getContext('2d')!.drawImage(img, 0, 0, w, h);
-          resolve(canvas.toDataURL('image/jpeg', 0.82));
+
+          // Iteratively reduce quality until we hit the target size
+          let quality = INITIAL_QUALITY;
+          let result = canvas.toDataURL('image/jpeg', quality);
+
+          while (result.length > TARGET_SIZE * 1.37 && quality > MIN_QUALITY) {
+            // 1.37 factor accounts for base64 overhead (~37%)
+            quality -= QUALITY_STEP;
+            result = canvas.toDataURL('image/jpeg', quality);
+          }
+
+          const compressedSizeKB = Math.round(result.length / 1.37 / 1024);
+          const originalSizeMB = (file.size / (1024 * 1024)).toFixed(1);
+          console.log(
+            `📸 Compressed: ${originalSizeMB}MB → ${compressedSizeKB}KB (quality: ${quality.toFixed(2)}, ${w}×${h})`
+          );
+
+          resolve(result);
         };
         img.onerror = reject;
         img.src = reader.result as string;
@@ -98,17 +132,14 @@ export function PhotoUpload({
       return;
     }
 
-    // Validate file size (5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Image must be smaller than 5MB');
-      return;
-    }
+    // No file size limit — images will be compressed automatically
 
     setUploading(true);
+    setCompressing(file.size > 1024 * 1024); // show compressing state for files > 1MB
 
     try {
-      // Convert the file to a data URL (resized) — no network call needed
-      const dataUrl = await fileToDataUrl(file);
+      // Compress and convert the file to a data URL — no network call needed
+      const dataUrl = await compressImage(file);
 
       const updatedPhotos = [...safePhotos, dataUrl];
 
@@ -126,6 +157,7 @@ export function PhotoUpload({
       alert(error instanceof Error ? error.message : 'Failed to upload photo');
     } finally {
       setUploading(false);
+      setCompressing(false);
     }
   };
 
@@ -219,7 +251,12 @@ export function PhotoUpload({
                   className="aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center hover:border-pink-400 hover:bg-pink-50 transition-colors disabled:opacity-50"
                 >
                   {uploading ? (
-                    <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
+                    <>
+                      <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
+                      {compressing && (
+                        <span className="text-xs text-gray-500 mt-1">Compressing…</span>
+                      )}
+                    </>
                   ) : (
                     <>
                       <Upload className="w-6 h-6 text-gray-400 mb-1" />
@@ -241,7 +278,7 @@ export function PhotoUpload({
         </div>
         <div className="flex items-center gap-1">
           <span>•</span>
-          <span>Accepted formats: JPEG, PNG, WebP (max 5MB each)</span>
+          <span>Accepted formats: JPEG, PNG, WebP (auto-compressed)</span>
         </div>
         <div className="flex items-center gap-1">
           <span>•</span>
