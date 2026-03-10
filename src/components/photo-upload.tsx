@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Button } from './ui/button';
 import { X, Camera, Upload, Loader2, Sparkles } from 'lucide-react';
+import { projectId } from '../utils/supabase/info';
 
 interface PhotoUploadProps {
   photos?: string[];
@@ -121,37 +122,72 @@ export function PhotoUpload({
 
   const uploadPhoto = async (file: File) => {
     if (safePhotos.length >= maxPhotos) {
-      alert(`Maximum ${maxPhotos} photos allowed`);
+      alert(`Maximum ${maxPhotos} allowed`);
       return;
     }
 
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
     if (!allowedTypes.includes(file.type)) {
       alert('Please select a valid image file (JPEG, PNG, or WebP)');
       return;
     }
 
-    // No file size limit — images will be compressed automatically
-
     setUploading(true);
-    setCompressing(file.size > 1024 * 1024); // show compressing state for files > 1MB
+    setCompressing(file.size > 1024 * 1024); // Show compressing for files > 1MB
 
     try {
-      // Compress and convert the file to a data URL — no network call needed
+      // Compress the file and convert to dataUrl (returns a base64 string)
       const dataUrl = await compressImage(file);
 
-      const updatedPhotos = [...safePhotos, dataUrl];
+      // Optionally use optimistic UI update with the dataUrl
+      const tempUrl = dataUrl;
+      setPhotoUrls(prev => ({ ...prev, [tempUrl]: tempUrl }));
 
-      // Handle both callback styles
+      // Create Blob from the data URL so we can actually upload a File 
+      const res = await fetch(dataUrl);
+      const blob = await res.blob();
+
+      const formData = new FormData();
+      // create a clean filename
+      const filename = `photo_${Date.now()}.jpg`;
+      formData.append('photo', blob, filename);
+
+      let finalPhotoId = tempUrl;
+
+      // Upload to server using the provided access token if a session exists
+      if (session?.access_token) {
+        const uploadRes = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-4644327c/upload-photo`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: formData
+        });
+
+        if (uploadRes.ok) {
+          const uploadData = await uploadRes.json();
+          if (uploadData.success && uploadData.fileName) {
+            finalPhotoId = uploadData.fileName;
+            // update local cache with the remote identifier mapping to the local blob URL
+            setPhotoUrls(prev => {
+              const newUrls = { ...prev };
+              delete newUrls[tempUrl]; // cleanup optimistic URL
+              newUrls[finalPhotoId] = tempUrl; // use local blob visually until reload
+              return newUrls;
+            });
+          }
+        } else {
+          console.error("Server rejected the photo upload", await uploadRes.text());
+        }
+      }
+
+      const updatedPhotos = [...safePhotos, finalPhotoId];
+
       if (onPhotosUpdate) {
         onPhotosUpdate(updatedPhotos);
       } else if (onProfileUpdate && userProfile) {
         onProfileUpdate({ ...userProfile, photos: updatedPhotos, profileComplete: updatedPhotos.length >= minPhotos });
       }
-
-      // Cache the URL immediately
-      setPhotoUrls(prev => ({ ...prev, [dataUrl]: dataUrl }));
     } catch (error) {
       console.error('Upload error:', error);
       alert(error instanceof Error ? error.message : 'Failed to upload photo');
@@ -161,22 +197,33 @@ export function PhotoUpload({
     }
   };
 
-  const deletePhoto = (photoFileName: string) => {
+  const deletePhoto = async (photoFileName: string) => {
     const updatedPhotos = safePhotos.filter((photo: string) => photo !== photoFileName);
 
-    // Handle both callback styles
     if (onPhotosUpdate) {
       onPhotosUpdate(updatedPhotos);
     } else if (onProfileUpdate && userProfile) {
       onProfileUpdate({ ...userProfile, photos: updatedPhotos });
     }
 
-    // Remove from URLs cache
     setPhotoUrls(prev => {
       const newUrls = { ...prev };
       delete newUrls[photoFileName];
       return newUrls;
     });
+
+    if (session?.access_token && !photoFileName.startsWith('data:')) {
+      try {
+        await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-4644327c/photo/${photoFileName}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${session.access_token}`
+          }
+        });
+      } catch (err) {
+        console.warn('Failed to delete photo from server:', err);
+      }
+    }
   };
 
   const openFileSelector = () => {
@@ -227,7 +274,7 @@ export function PhotoUpload({
                     </div>
                   ) : (
                     <img
-                      src={photoUrl}
+                      src={photoUrl.startsWith('http') || photoUrl.startsWith('data:') ? photoUrl : `https://${projectId}.supabase.co/storage/v1/object/public/make-4644327c-photos/${photo}`}
                       alt={`Photo ${index + 1}`}
                       className="w-full h-full object-cover"
                     />

@@ -156,7 +156,7 @@ export function MainApp({ session, supabase }: MainAppProps) {
       <div className="sanjog-bg min-h-screen min-h-dvh">
         {/* Header */}
         <header className="glass-dark sticky top-0 z-40 pt-safe">
-          <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
+          <div className="max-w-2xl w-full mx-auto px-4 py-4 flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f43f5e, #d946ef)' }}>
               <Heart className="w-4 h-4 text-white" />
             </div>
@@ -164,7 +164,7 @@ export function MainApp({ session, supabase }: MainAppProps) {
           </div>
         </header>
 
-        <main className="max-w-lg mx-auto p-4 pb-8">
+        <main className="max-w-2xl w-full mx-auto p-4 pb-8">
           {/* Alert */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-xl p-4 flex items-start gap-3 mb-6 mt-4" style={{ borderColor: 'rgba(245,158,11,0.3)' }}>
             <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: '#f59e0b' }} />
@@ -237,7 +237,7 @@ export function MainApp({ session, supabase }: MainAppProps) {
             transition={{ type: 'spring', stiffness: 300, damping: 28 }}
             className="glass-dark sticky top-0 z-40 pt-safe"
           >
-            <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div className="max-w-2xl w-full mx-auto px-4 py-3.5 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f43f5e, #d946ef)' }}>
                   <Sparkles className="w-4 h-4 text-white" />
@@ -254,8 +254,7 @@ export function MainApp({ session, supabase }: MainAppProps) {
         )}
       </AnimatePresence>
 
-      {/* Main content */}
-      <main className="max-w-lg mx-auto">
+      <main className="max-w-2xl w-full mx-auto">
         <AnimatePresence mode="wait">
           {activeTab === 'chat' ? (
             <motion.div key="chat" variants={pageVariants} initial="initial" animate="in" exit="out" transition={pageTransition} className="flex-1">
@@ -286,6 +285,6 @@ export function MainApp({ session, supabase }: MainAppProps) {
           <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
         )}
       </AnimatePresence>
-    </div>
+    </div >
   );
 }

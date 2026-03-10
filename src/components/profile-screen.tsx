@@ -616,7 +616,7 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
             style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
             onClick={() => setShowPhotoRecovery(false)}>
             <motion.div initial={{ y: 100 }} animate={{ y: 0 }} exit={{ y: 100 }} transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-              className="glass-card p-4 w-full max-w-md" onClick={e => e.stopPropagation()} style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+              className="glass-card p-4 w-full max-w-2xl" onClick={e => e.stopPropagation()} style={{ maxHeight: '80vh', overflowY: 'auto' }}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-bold" style={{ fontFamily: 'Outfit, sans-serif' }}>Photo Recovery</h3>
                 <motion.button whileTap={{ scale: 0.9 }} onClick={() => setShowPhotoRecovery(false)} className="w-8 h-8 rounded-xl flex items-center justify-center btn-glass">
@@ -628,6 +628,6 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </div >
   );
 }

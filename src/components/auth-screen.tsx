@@ -642,7 +642,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
         {view === 'welcome' && (
           <motion.div key="welcome"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }} className="w-full max-w-md text-center space-y-8 relative z-10"
+            transition={{ duration: 0.4 }} className="w-full max-w-2xl text-center space-y-8 relative z-10"
           >
             {/* Logo */}
             <div className="space-y-4">
@@ -737,7 +737,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
         {view === 'login' && (
           <motion.div key="login"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }} className="w-full max-w-md space-y-6 relative z-10"
+            transition={{ duration: 0.3 }} className="w-full max-w-2xl space-y-6 relative z-10"
           >
             {/* Back button */}
             <button onClick={() => { setView('welcome'); setError(''); }}
@@ -792,7 +792,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
         {view === 'signup' && (
           <motion.div key="signup"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }} className="w-full max-w-md space-y-6 relative z-10"
+            transition={{ duration: 0.3 }} className="w-full max-w-2xl space-y-6 relative z-10"
           >
             <button onClick={() => { setView('welcome'); setError(''); }}
               className="flex items-center gap-2 text-sm px-3 py-2 rounded-xl transition-all hover:bg-white/5"

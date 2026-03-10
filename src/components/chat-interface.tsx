@@ -241,8 +241,9 @@ export function ChatInterface({ session, chatHistory, onUpdateChatHistory, onBac
             type="submit"
             disabled={isLoading || !message.trim()}
             whileTap={{ scale: 0.88 }}
-            className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0 btn-glow disabled:opacity-40"
+            className="px-6 py-2.5 h-12 rounded-2xl flex items-center justify-center gap-2 flex-shrink-0 btn-glow disabled:opacity-40"
           >
+            <span className="text-white font-semibold text-sm">Send</span>
             <Send className="w-4 h-4 text-white" />
           </motion.button>
         </form>
