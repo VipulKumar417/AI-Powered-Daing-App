@@ -21,17 +21,17 @@ function GlassInput({ icon: Icon, ...props }: any) {
   return (
     <div className="relative">
       {Icon && (
-        <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'rgba(255,255,255,0.35)' }} />
+        <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--sanjog-text-muted)' }} />
       )}
       <input
         {...props}
-        className={`w-full px-4 py-3 rounded-xl text-sm bg-transparent outline-none transition-all duration-200
-          focus:ring-1 focus:ring-pink-500/40 ${Icon ? 'pl-10' : ''} ${props.className || ''}`}
+        className={`w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200
+          focus:ring-2 focus:ring-pink-500/30 ${Icon ? 'pl-11' : ''} ${props.className || ''}`}
         style={{
-          background: 'rgba(255,255,255,0.06)',
-          border: '1px solid rgba(255,255,255,0.10)',
-          color: '#fff',
-          caretColor: '#d946ef',
+          background: 'var(--sanjog-bg-tertiary)',
+          border: '1px solid transparent', /* Clean look to match Figma, rely on background and focus ring */
+          color: 'var(--sanjog-text-primary)',
+          caretColor: 'var(--sanjog-fuchsia)',
           ...props.style
         }}
       />
@@ -43,21 +43,21 @@ function GlassSelect({ icon: Icon, children, ...props }: any) {
   return (
     <div className="relative">
       {Icon && (
-        <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'rgba(255,255,255,0.35)' }} />
+        <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--sanjog-text-muted)' }} />
       )}
       <select
         {...props}
-        className={`w-full px-4 py-3 rounded-xl text-sm bg-transparent outline-none appearance-none cursor-pointer
-          focus:ring-1 focus:ring-pink-500/40 ${Icon ? 'pl-10' : ''}`}
+        className={`w-full px-4 py-3 rounded-xl text-sm outline-none appearance-none cursor-pointer
+          focus:ring-2 focus:ring-pink-500/30 ${Icon ? 'pl-11' : ''}`}
         style={{
-          background: 'rgba(255,255,255,0.06)',
-          border: '1px solid rgba(255,255,255,0.10)',
-          color: '#fff',
+          background: 'var(--sanjog-bg-tertiary)',
+          border: '1px solid transparent',
+          color: 'var(--sanjog-text-primary)',
         }}
       >
         {children}
       </select>
-      <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 rotate-90 pointer-events-none" style={{ color: 'rgba(255,255,255,0.3)' }} />
+      <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 rotate-90 pointer-events-none" style={{ color: 'var(--sanjog-text-muted)' }} />
     </div>
   );
 }
@@ -360,26 +360,26 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
                     <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>Share a little more to stand out</p>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Bio</label>
+                    <label className="text-xs font-medium" style={{ color: 'var(--sanjog-text-secondary)' }}>Bio</label>
                     <textarea
                       value={profile.bio}
                       onChange={e => setProfile(p => ({ ...p, bio: e.target.value }))}
                       placeholder="What makes you unique? Write a few lines…"
                       rows={2}
                       maxLength={300}
-                      className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none focus:ring-1 focus:ring-pink-500/40"
-                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)', color: '#fff', caretColor: '#d946ef' }}
+                      className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none focus:ring-2 focus:ring-pink-500/30"
+                      style={{ background: 'var(--sanjog-bg-tertiary)', border: '1px solid transparent', color: 'var(--sanjog-text-primary)', caretColor: 'var(--sanjog-fuchsia)' }}
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Education</label>
+                      <label className="text-xs font-medium" style={{ color: 'var(--sanjog-text-secondary)' }}>Education</label>
                       <GlassInput icon={GraduationCap} value={profile.education}
                         onChange={(e: any) => setProfile(p => ({ ...p, education: e.target.value }))} placeholder="e.g. IIT Delhi" />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Job Title</label>
+                      <label className="text-xs font-medium" style={{ color: 'var(--sanjog-text-secondary)' }}>Job Title</label>
                       <GlassInput icon={Briefcase} value={profile.jobTitle}
                         onChange={(e: any) => setProfile(p => ({ ...p, jobTitle: e.target.value }))} placeholder="e.g. Engineer" />
                     </div>
@@ -387,7 +387,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Religion</label>
+                      <label className="text-xs font-medium" style={{ color: 'var(--sanjog-text-secondary)' }}>Religion</label>
                       <GlassSelect value={profile.religion} onChange={(e: any) => setProfile(p => ({ ...p, religion: e.target.value }))}>
                         <option value="" disabled>Select</option>
                         {['Hindu', 'Muslim', 'Christian', 'Sikh', 'Buddhist', 'Jain', 'Other', 'Atheist'].map(r => (
@@ -396,7 +396,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
                       </GlassSelect>
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Looking For</label>
+                      <label className="text-xs font-medium" style={{ color: 'var(--sanjog-text-secondary)' }}>Looking For</label>
                       <GlassSelect value={profile.lookingFor} onChange={(e: any) => setProfile(p => ({ ...p, lookingFor: e.target.value }))}>
                         <option value="" disabled>Select</option>
                         <option value="Long-term partner">Long-term partner</option>
@@ -409,7 +409,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Drinking</label>
+                      <label className="text-xs font-medium" style={{ color: 'var(--sanjog-text-secondary)' }}>Drinking</label>
                       <GlassSelect value={profile.drinking} onChange={(e: any) => setProfile(p => ({ ...p, drinking: e.target.value }))}>
                         <option value="" disabled>Select</option>
                         <option value="Yes">Yes</option>
@@ -418,7 +418,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
                       </GlassSelect>
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Smoking</label>
+                      <label className="text-xs font-medium" style={{ color: 'var(--sanjog-text-secondary)' }}>Smoking</label>
                       <GlassSelect value={profile.smoking} onChange={(e: any) => setProfile(p => ({ ...p, smoking: e.target.value }))}>
                         <option value="" disabled>Select</option>
                         <option value="Yes">Yes</option>
@@ -435,23 +435,18 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
                 <>
                   <div>
                     <h2 className="text-2xl font-bold gradient-text" style={{ fontFamily: 'Outfit, sans-serif' }}>Your Interests</h2>
-                    <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>Pick at least 3 to help us find the right matches</p>
+                    <p className="text-sm mt-1" style={{ color: 'var(--sanjog-text-muted)' }}>Pick at least 3 to help us find the right matches</p>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="grid grid-cols-2 gap-y-4 gap-x-6 mt-2">
                     {ALL_INTERESTS.map(interest => {
                       const active = profile.interests.includes(interest);
                       return (
-                        <motion.button key={interest} whileTap={{ scale: 0.92 }}
-                          onClick={() => handleInterestToggle(interest)}
-                          className="px-3.5 py-2 rounded-xl text-sm font-medium transition-all"
-                          style={{
-                            background: active ? 'linear-gradient(135deg, rgba(244,63,94,0.25), rgba(217,70,239,0.25))' : 'rgba(255,255,255,0.05)',
-                            border: active ? '1px solid rgba(244,63,94,0.5)' : '1px solid rgba(255,255,255,0.08)',
-                            color: active ? '#fff' : 'rgba(255,255,255,0.6)',
-                          }}
-                        >
-                          {interest}
-                        </motion.button>
+                        <div key={interest} className="flex items-center gap-3 cursor-pointer" onClick={() => handleInterestToggle(interest)}>
+                          <div className={`w-5 h-5 flex-shrink-0 rounded-md flex items-center justify-center border transition-colors ${active ? 'bg-black border-black' : 'bg-gray-100 border-gray-200'}`}>
+                            {active && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
+                          </div>
+                          <span className="text-sm font-medium" style={{ color: 'var(--sanjog-text-primary)' }}>{interest}</span>
+                        </div>
                       );
                     })}
                   </div>
@@ -655,7 +650,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
               </motion.div>
               <div>
                 <h1 className="gradient-text-animated text-6xl font-bold" style={{ fontFamily: 'Outfit, sans-serif' }}>Sanjog</h1>
-                <p className="text-[15px] mt-2 tracking-wide" style={{ color: 'rgba(255,255,255,0.6)' }}>AI-powered connections, made for you</p>
+                <p className="text-[15px] mt-2 tracking-wide" style={{ color: 'var(--sanjog-text-secondary)' }}>AI-powered connections, made for you</p>
               </div>
             </div>
 
@@ -677,7 +672,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
               ].map((f, i) => (
                 <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 + i * 0.12 }}
-                  className="flex items-center gap-4 p-4 rounded-2xl glass-card relative overflow-hidden group"
+                  className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-gray-100 shadow-sm relative overflow-hidden group"
                 >
                   <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-[100px] opacity-20 transition-opacity group-hover:opacity-40"
                     style={{ background: `radial-gradient(circle at top right, ${f.color}, transparent)` }} />
@@ -686,8 +681,8 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
                     {f.icon}
                   </div>
                   <div className="z-10">
-                    <h5 className="font-bold text-[15px] text-white tracking-wide">{f.title}</h5>
-                    <p className="text-[13px] mt-0.5 leading-snug" style={{ color: 'rgba(255,255,255,0.55)' }}>{f.desc}</p>
+                    <h5 className="font-bold text-[15px] tracking-wide" style={{ color: 'var(--sanjog-text-primary)' }}>{f.title}</h5>
+                    <p className="text-[13px] mt-0.5 leading-snug" style={{ color: 'var(--sanjog-text-secondary)' }}>{f.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -749,9 +744,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
 
             <div>
               <h2 className="text-3xl font-bold gradient-text" style={{ fontFamily: 'Outfit, sans-serif' }}>Welcome Back</h2>
-              <p className="text-sm mt-2 italic" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                "Love is just a heartbeat away" 💗
-              </p>
+              <p className="text-[15px] mt-1.5" style={{ color: 'var(--sanjog-text-secondary)' }}>Sign in to continue your journey</p>
             </div>
 
             {error && (
@@ -803,9 +796,7 @@ export function AuthScreen({ supabase: _sb }: AuthScreenProps) {
 
             <div>
               <h2 className="text-3xl font-bold gradient-text" style={{ fontFamily: 'Outfit, sans-serif' }}>Create Account</h2>
-              <p className="text-sm mt-2 italic" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                "Your love story starts here" ✨
-              </p>
+              <p className="text-[15px] mt-1.5" style={{ color: 'var(--sanjog-text-secondary)' }}>Start your journey with Sanjog</p>
             </div>
 
             {error && (

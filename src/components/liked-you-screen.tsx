@@ -53,15 +53,15 @@ export function LikedYouScreen({ session, onNavigateToDiscover }: LikedYouScreen
 
       {/* Premium banner */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-        className="rounded-2xl p-4 flex items-center gap-3 cursor-pointer"
-        style={{ background: 'linear-gradient(135deg, rgba(234,179,8,0.12), rgba(251,146,60,0.12))', border: '1px solid rgba(234,179,8,0.25)' }}
+        className="rounded-2xl p-4 flex items-center gap-3 cursor-pointer bg-white"
+        style={{ border: '1px solid rgba(234,179,8,0.3)', boxShadow: '0 4px 14px rgba(234,179,8,0.06)' }}
         onClick={() => setShowPremiumModal(true)}>
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(234,179,8,0.2)' }}>
-          <Crown className="w-5 h-5" style={{ color: '#fbbf24' }} />
+        <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#fef3c7' }}>
+          <Crown className="w-5 h-5" style={{ color: '#d97706' }} />
         </div>
         <div className="flex-1">
-          <h4 className="font-semibold text-sm" style={{ color: '#fbbf24', fontFamily: 'Outfit, sans-serif' }}>Sanjog Premium</h4>
-          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>See who liked you first • Unlimited likes</p>
+          <h4 className="font-semibold text-sm" style={{ color: '#b45309', fontFamily: 'Outfit, sans-serif' }}>Sanjog Premium</h4>
+          <p className="text-xs" style={{ color: 'var(--sanjog-text-secondary)' }}>See who liked you first • Unlimited likes</p>
         </div>
         <span className="text-xs px-3 py-1.5 rounded-xl font-semibold" style={{ background: 'rgba(234,179,8,0.25)', color: '#fbbf24' }}>Upgrade</span>
       </motion.div>
@@ -72,16 +72,16 @@ export function LikedYouScreen({ session, onNavigateToDiscover }: LikedYouScreen
           {[1, 2, 3, 4].map(i => <div key={i} className="aspect-[3/4] rounded-2xl shimmer" />)}
         </div>
       ) : likedYou.length === 0 ? (
-        <div className="glass-card p-8 text-center space-y-4">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center space-y-4">
           <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto float"
-            style={{ background: 'rgba(244,63,94,0.12)', border: '1px solid rgba(244,63,94,0.25)' }}>
-            <Heart className="w-8 h-8" style={{ color: '#f43f5e' }} />
+            style={{ background: '#fff1f2', border: '1px solid #ffe4e6' }}>
+            <Heart className="w-8 h-8 text-rose-500" />
           </div>
           <div>
-            <h3 className="font-bold text-lg mb-1" style={{ fontFamily: 'Outfit, sans-serif' }}>No likes yet!</h3>
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>Keep swiping! When someone likes you, they'll appear here.</p>
+            <h3 className="font-bold text-lg mb-1 text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>No likes yet!</h3>
+            <p className="text-sm text-gray-500">Keep swiping! When someone likes you, they'll appear here.</p>
           </div>
-          <motion.button whileTap={{ scale: 0.94 }} onClick={onNavigateToDiscover} className="btn-glow px-5 py-2.5 rounded-xl font-medium flex items-center gap-2 mx-auto">
+          <motion.button whileTap={{ scale: 0.94 }} onClick={onNavigateToDiscover} className="btn-glow px-5 py-2.5 rounded-xl font-medium flex items-center gap-2 mx-auto text-white">
             <Sparkles className="w-4 h-4" /> Start Discovering
           </motion.button>
         </div>
@@ -142,13 +142,13 @@ export function LikedYouScreen({ session, onNavigateToDiscover }: LikedYouScreen
             onClick={() => setShowPremiumModal(false)}>
             <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-              className="glass-card p-6 w-full max-w-md text-center space-y-4"
+              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 w-full max-w-md text-center space-y-4"
               onClick={e => e.stopPropagation()}>
               <div className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto" style={{ background: 'rgba(234,179,8,0.2)', border: '1px solid rgba(234,179,8,0.35)' }}>
                 <Crown className="w-8 h-8" style={{ color: '#fbbf24' }} />
               </div>
               <h3 className="text-xl font-bold gradient-text" style={{ fontFamily: 'Outfit, sans-serif' }}>Sanjog Premium</h3>
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>Premium features coming soon! Unlimited likes, advanced filters, and priority matching.</p>
+              <p className="text-sm" style={{ color: 'var(--sanjog-text-secondary)' }}>Premium features coming soon! Unlimited likes, advanced filters, and priority matching.</p>
               <div className="flex gap-3">
                 <motion.button whileTap={{ scale: 0.94 }} onClick={() => setShowPremiumModal(false)} className="btn-glass flex-1 py-3 rounded-2xl font-semibold text-sm">
                   Maybe Later

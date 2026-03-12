@@ -21,11 +21,7 @@ const pageVariants = {
   in: { opacity: 1, x: 0, filter: 'blur(0px)' },
   out: { opacity: 0, x: -24, filter: 'blur(4px)' },
 };
-const pageTransition = {
-  type: 'tween',
-  ease: [0.25, 0.46, 0.45, 0.94],
-  duration: 0.28,
-};
+
 
 export function MainApp({ session, supabase }: MainAppProps) {
   const [activeTab, setActiveTab] = useState('suggestions');
@@ -140,7 +136,7 @@ export function MainApp({ session, supabase }: MainAppProps) {
             <span className="typing-dot" />
           </div>
           {!navigator.onLine && (
-            <div className="glass rounded-xl px-4 py-3 mx-4 flex items-center gap-2">
+            <div className="bg-white/90 backdrop-blur-md rounded-xl px-4 py-3 mx-4 flex items-center gap-2 shadow-sm border border-orange-100">
               <Wifi className="w-4 h-4" style={{ color: '#f59e0b' }} />
               <p className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>You appear to be offline</p>
             </div>
@@ -155,7 +151,7 @@ export function MainApp({ session, supabase }: MainAppProps) {
     return (
       <div className="sanjog-bg min-h-screen min-h-dvh">
         {/* Header */}
-        <header className="glass-dark sticky top-0 z-40 pt-safe">
+        <header className="bg-white/80 backdrop-blur-xl border-b border-gray-100 sticky top-0 z-40 pt-safe">
           <div className="max-w-2xl w-full mx-auto px-4 py-4 flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #f43f5e, #d946ef)' }}>
               <Heart className="w-4 h-4 text-white" />
@@ -166,7 +162,7 @@ export function MainApp({ session, supabase }: MainAppProps) {
 
         <main className="max-w-2xl w-full mx-auto p-4 pb-8">
           {/* Alert */}
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-xl p-4 flex items-start gap-3 mb-6 mt-4" style={{ borderColor: 'rgba(245,158,11,0.3)' }}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="bg-orange-50 rounded-xl p-4 flex items-start gap-3 mb-6 mt-4 border border-orange-200">
             <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: '#f59e0b' }} />
             <div>
               <h3 className="font-semibold mb-1" style={{ color: '#f59e0b' }}>Complete Your Profile</h3>
@@ -205,7 +201,7 @@ export function MainApp({ session, supabase }: MainAppProps) {
             exit={{ y: -40, opacity: 0 }}
             className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-safe"
           >
-            <div className="glass mx-4 mt-2 px-4 py-2.5 rounded-xl flex items-center gap-2" style={{ borderColor: 'rgba(245,158,11,0.3)' }}>
+            <div className="bg-white/90 backdrop-blur-md mx-4 mt-2 px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-sm border border-orange-100">
               {!navigator.onLine ? (
                 <>
                   <Wifi className="w-4 h-4" style={{ color: '#f59e0b' }} />
@@ -235,7 +231,7 @@ export function MainApp({ session, supabase }: MainAppProps) {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -60, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-            className="glass-dark sticky top-0 z-40 pt-safe"
+            className="bg-white/80 backdrop-blur-xl border-b border-gray-100 sticky top-0 z-40 pt-safe shadow-sm"
           >
             <div className="max-w-2xl w-full mx-auto px-4 py-3.5 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
@@ -245,7 +241,7 @@ export function MainApp({ session, supabase }: MainAppProps) {
                 <span className="font-bold text-xl gradient-text" style={{ fontFamily: 'Outfit, sans-serif' }}>Sanjog</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-xs px-2.5 py-1 rounded-full glass" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <span className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 font-medium">
                   {userProfile?.name || session?.user?.email?.split('@')[0] || 'User'}
                 </span>
               </div>
@@ -257,19 +253,19 @@ export function MainApp({ session, supabase }: MainAppProps) {
       <main className="max-w-2xl w-full mx-auto">
         <AnimatePresence mode="wait">
           {activeTab === 'chat' ? (
-            <motion.div key="chat" variants={pageVariants} initial="initial" animate="in" exit="out" transition={pageTransition} className="flex-1">
+            <motion.div key="chat" variants={pageVariants} initial="initial" animate="in" exit="out" transition={{ type: 'tween', ease: [0.25, 0.46, 0.45, 0.94], duration: 0.28 }} className="flex-1">
               <ChatInterface session={session} chatHistory={chatHistory} onUpdateChatHistory={updateChatHistory} onBack={() => setActiveTab('suggestions')} />
             </motion.div>
           ) : (
-            <motion.div key={activeTab} variants={pageVariants} initial="initial" animate="in" exit="out" transition={pageTransition} className="px-4 pt-2 pb-4">
+            <motion.div key={activeTab} variants={pageVariants} initial="initial" animate="in" exit="out" transition={{ type: 'tween', ease: [0.25, 0.46, 0.45, 0.94], duration: 0.28 }} className="px-4 pt-2 pb-4">
               {activeTab === 'suggestions' && (
-                <SuggestionsScreen session={session} onNavigateToChat={() => setActiveTab('chat')} onNavigateToLikedYou={() => setActiveTab('likedyou')} />
+                <SuggestionsScreen session={session} chatHistory={chatHistory} onNavigateToChat={() => setActiveTab('chat')} onNavigateToLikedYou={() => setActiveTab('likedyou')} />
               )}
               {activeTab === 'likedyou' && (
                 <LikedYouScreen session={session} onNavigateToDiscover={() => setActiveTab('suggestions')} />
               )}
               {activeTab === 'messages' && (
-                <MessagesScreen session={session} onNavigateToDiscover={() => setActiveTab('suggestions')} />
+                <MessagesScreen session={session} onNavigateToDiscover={() => setActiveTab('suggestions')} onNavigateToAIChat={() => setActiveTab('chat')} />
               )}
               {activeTab === 'profile' && (
                 <ProfileScreen session={session} userProfile={userProfile} onUpdateProfile={updateProfile} />

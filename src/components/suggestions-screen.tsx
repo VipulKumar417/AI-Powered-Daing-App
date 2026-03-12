@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SwipeableCard } from './swipeable-card';
 import { ProfileDetailView } from './profile-detail-view';
-import { Heart, X, Star, RefreshCw, Sparkles, Compass } from 'lucide-react';
+import { Heart, X, Star, RefreshCw, Sparkles, Compass, Lock } from 'lucide-react';
 import { generateCompatibilityScore, UserProfileData } from '../services/aiService';
 
 interface SuggestionsScreenProps {
   session: any;
+  chatHistory?: any[];
   onNavigateToChat?: () => void;
   onNavigateToLikedYou?: () => void;
 }
@@ -20,7 +21,7 @@ const SAMPLE_PROFILES = [
   { id: '6', name: 'Avery', age: 27, gender: 'non-binary', bio: 'Jazz, wine, and late-night conversations 🎷', interests: ['Art Galleries', 'Jazz Music', 'Wine Tasting', 'Literature'], photos: ['https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&q=80'] },
 ];
 
-export function SuggestionsScreen({ session, onNavigateToChat, onNavigateToLikedYou }: SuggestionsScreenProps) {
+export function SuggestionsScreen({ session, chatHistory, onNavigateToChat, onNavigateToLikedYou }: SuggestionsScreenProps) {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -91,7 +92,7 @@ export function SuggestionsScreen({ session, onNavigateToChat, onNavigateToLiked
       <div className="space-y-4 pb-24">
         <div className="flex items-center gap-3 pt-2 pb-4">
           <Compass className="w-5 h-5" style={{ color: '#f43f5e' }} />
-          <h2 className="text-xl font-bold" style={{ fontFamily: 'Outfit, sans-serif', color: 'rgba(255,255,255,0.9)' }}>Discover</h2>
+          <h2 className="text-xl font-bold" style={{ fontFamily: 'Outfit, sans-serif', color: 'var(--sanjog-text-primary)' }}>Discover</h2>
         </div>
         <div className="relative mx-auto" style={{ height: '540px', maxWidth: '360px' }}>
           <div className="absolute inset-0 rounded-3xl shimmer" />
@@ -103,6 +104,41 @@ export function SuggestionsScreen({ session, onNavigateToChat, onNavigateToLiked
                 {[1, 2, 3].map(i => <div key={i} className="h-6 w-16 rounded-full shimmer" />)}
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const userMessageCount = (chatHistory || []).filter(m => m.role === 'user').length;
+  const isUnlocked = userMessageCount >= 8;
+
+  if (!isUnlocked) {
+    return (
+      <div className="pb-24">
+        <div className="flex items-center gap-2 pt-2 pb-4">
+          <Compass className="w-5 h-5" style={{ color: '#f43f5e' }} />
+          <h2 className="text-xl font-bold" style={{ fontFamily: 'Outfit, sans-serif', color: 'var(--sanjog-text-primary)' }}>Discover</h2>
+        </div>
+
+        <div className="relative mx-auto mt-4" style={{ height: '520px', maxWidth: '360px' }}>
+          <div className="absolute inset-x-0 bottom-0 top-4" style={{ background: 'var(--sanjog-bg-tertiary)', borderRadius: '24px', opacity: 0.6 }} />
+
+          <div className="absolute inset-0 flex items-center justify-center p-6 z-10">
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', damping: 20 }}
+              className="bg-white rounded-3xl p-8 text-center w-full max-w-sm border border-gray-100 shadow-sm">
+              <div className="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-6" style={{ background: 'linear-gradient(135deg, rgba(244,63,94,0.1), rgba(217,70,239,0.1))' }}>
+                <Lock className="w-8 h-8" style={{ color: '#f43f5e' }} />
+              </div>
+              <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--sanjog-text-primary)', fontFamily: 'Outfit, sans-serif' }}>Unlock Discover!</h3>
+              <p className="text-[15px] mb-8 leading-relaxed" style={{ color: 'var(--sanjog-text-secondary)' }}>Chat 8 messages to unlock personalized matches</p>
+
+              <motion.button whileTap={{ scale: 0.95 }} onClick={onNavigateToChat}
+                className="btn-glow w-full py-3.5 rounded-2xl text-white font-semibold flex items-center justify-center gap-2"
+                style={{ background: 'linear-gradient(135deg, var(--sanjog-rose), var(--sanjog-fuchsia))', boxShadow: '0 4px 14px rgba(244,63,94,0.3)' }}>
+                <Sparkles className="w-5 h-5" /> Start Chatting
+              </motion.button>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -136,8 +172,8 @@ export function SuggestionsScreen({ session, onNavigateToChat, onNavigateToLiked
       <div className="flex items-center justify-between pt-2 pb-4">
         <div className="flex items-center gap-2">
           <Compass className="w-5 h-5" style={{ color: '#f43f5e' }} />
-          <h2 className="text-xl font-bold" style={{ fontFamily: 'Outfit, sans-serif' }}>Discover</h2>
-          <span className="px-2 py-0.5 rounded-full text-xs font-medium glass" style={{ color: 'rgba(255,255,255,0.6)' }}>
+          <h2 className="text-xl font-bold" style={{ fontFamily: 'Outfit, sans-serif', color: 'var(--sanjog-text-primary)' }}>Discover</h2>
+          <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-50 border border-gray-200 text-gray-500">
             {suggestions.length - currentIndex} left
           </span>
         </div>

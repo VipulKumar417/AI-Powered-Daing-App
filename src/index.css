@@ -3599,26 +3599,33 @@ html {
 }
 
 /* ============================================================
-   SANJOG DARK DESIGN SYSTEM
-   Premium dark glassmorphism theme for Sanjog dating app
+   SANJOG LIGHT DESIGN SYSTEM
+   Premium light theme for Sanjog dating app (based on Figma)
    ============================================================ */
 
 :root {
-  --sanjog-bg-deep: #080810;
-  --sanjog-bg-primary: #0d0d1a;
-  --sanjog-bg-secondary: #12112a;
-  --sanjog-bg-tertiary: #1a1535;
+  --sanjog-bg-deep: #FAF5FF;
+  /* Soft faint purple/pink background */
+  --sanjog-bg-primary: #FFFFFF;
+  --sanjog-bg-secondary: #FDFBFE;
+  --sanjog-bg-tertiary: #F3F4F6;
+  /* Input backgrounds */
+
   --sanjog-rose: #f43f5e;
   --sanjog-fuchsia: #d946ef;
   --sanjog-violet: #8b5cf6;
   --sanjog-indigo: #6366f1;
-  --sanjog-glass: rgba(255, 255, 255, 0.05);
-  --sanjog-glass-hover: rgba(255, 255, 255, 0.08);
-  --sanjog-glass-border: rgba(255, 255, 255, 0.10);
-  --sanjog-glass-border-bright: rgba(255, 255, 255, 0.18);
-  --sanjog-text-primary: rgba(255, 255, 255, 0.95);
-  --sanjog-text-secondary: rgba(255, 255, 255, 0.60);
-  --sanjog-text-muted: rgba(255, 255, 255, 0.35);
+
+  --sanjog-glass: #FFFFFF;
+  /* Replaced translucent blurs with solid white */
+  --sanjog-glass-hover: #F9FAFB;
+  --sanjog-glass-border: rgba(0, 0, 0, 0.06);
+  --sanjog-glass-border-bright: rgba(0, 0, 0, 0.12);
+
+  --sanjog-text-primary: #111827;
+  --sanjog-text-secondary: #4B5563;
+  --sanjog-text-muted: #9CA3AF;
+
   --font-display: 'Outfit', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
@@ -3627,7 +3634,8 @@ html,
 body,
 #root {
   min-height: 100%;
-  background-color: var(--sanjog-bg-primary);
+  background-color: var(--sanjog-bg-deep);
+  /* Use the soft deep background for the outer shell */
   color: var(--sanjog-text-primary);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -3734,30 +3742,29 @@ body,
 
 .glass {
   background: var(--sanjog-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--sanjog-glass-border);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+  /* Soft Figma-style shadow instead of blur */
 }
 
 .glass-card {
   background: var(--sanjog-glass);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--sanjog-glass-border);
   border-radius: 1.25rem;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .glass-card:hover {
   background: var(--sanjog-glass-hover);
   border-color: var(--sanjog-glass-border-bright);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 }
 
 .glass-dark {
-  background: rgba(8, 8, 16, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #FFFFFF;
   border: 1px solid var(--sanjog-glass-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .gradient-text {
@@ -3796,16 +3803,16 @@ body,
 }
 
 .btn-glass {
-  background: var(--sanjog-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: #FFFFFF;
   border: 1px solid var(--sanjog-glass-border-bright);
-  color: #fff;
-  transition: background 0.2s ease, transform 0.15s ease;
+  color: var(--sanjog-text-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .btn-glass:hover {
-  background: var(--sanjog-glass-hover);
+  background: #F9FAFB;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transform: translateY(-1px);
 }
 
@@ -3833,7 +3840,8 @@ body,
 }
 
 .sanjog-bg {
-  background: linear-gradient(160deg, var(--sanjog-bg-deep) 0%, var(--sanjog-bg-secondary) 50%, var(--sanjog-bg-deep) 100%);
+  background: var(--sanjog-bg-deep);
+  /* Use simple light background */
   min-height: 100vh;
   min-height: 100dvh;
 }
@@ -3973,7 +3981,7 @@ body,
 /* ─── Auth Background with Romantic Overlay ─── */
 .auth-bg {
   position: relative;
-  background: linear-gradient(160deg, var(--sanjog-bg-deep) 0%, var(--sanjog-bg-secondary) 50%, var(--sanjog-bg-deep) 100%);
+  background: var(--sanjog-bg-deep);
   min-height: 100vh;
   min-height: 100dvh;
 }
@@ -3984,7 +3992,8 @@ body,
   inset: 0;
   background:
     url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=1200&q=60&auto=format') center/cover no-repeat;
-  opacity: 0.07;
+  opacity: 0.03;
+  /* Extremely faint watermark */
   pointer-events: none;
   z-index: 0;
 }
@@ -4023,18 +4032,17 @@ body,
 }
 
 .btn-auth-google {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #fff;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--sanjog-text-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .btn-auth-google:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: #F9FAFB;
+  border-color: rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(66, 133, 244, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .btn-auth-google:active {

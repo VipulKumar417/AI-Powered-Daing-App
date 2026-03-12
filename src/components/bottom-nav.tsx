@@ -24,11 +24,9 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
       <div
         className="mx-4 mb-3 px-2 py-2 flex items-center gap-1 rounded-2xl"
         style={{
-          background: 'rgba(18,17,42,0.85)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          border: '1px solid rgba(255,255,255,0.10)',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06)',
+          background: 'var(--sanjog-bg-primary)',
+          border: '1px solid var(--sanjog-glass-border-bright)',
+          boxShadow: '0 -4px 20px rgba(0,0,0,0.03)',
           width: 'calc(100% - 32px)',
           maxWidth: '420px',
         }}
@@ -44,7 +42,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               className="relative flex flex-col items-center justify-center gap-0.5 flex-1 py-2 rounded-xl outline-none border-0 cursor-pointer"
               style={{
                 background: isActive
-                  ? 'linear-gradient(135deg, rgba(244,63,94,0.15), rgba(217,70,239,0.10))'
+                  ? 'var(--sanjog-bg-deep)'
                   : 'transparent',
                 minHeight: '52px',
               }}
@@ -57,8 +55,8 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
                   layoutId="nav-active-bg"
                   className="absolute inset-0 rounded-xl"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(244,63,94,0.12), rgba(217,70,239,0.08))',
-                    border: '1px solid rgba(244,63,94,0.20)',
+                    background: 'var(--sanjog-bg-deep)',
+                    border: '1px solid rgba(244,63,94,0.10)',
                   }}
                   transition={{ type: 'spring', stiffness: 380, damping: 28 }}
                 />
@@ -73,7 +71,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
                   <Icon
                     className="w-5 h-5"
                     style={{
-                      color: isActive ? 'transparent' : 'rgba(255,255,255,0.45)',
+                      color: isActive ? 'transparent' : 'var(--sanjog-text-secondary)',
                       fill: isActive ? 'url(#nav-grad)' : 'none',
                       stroke: isActive ? 'url(#nav-grad)' : undefined,
                     }}
@@ -82,7 +80,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
                   <Icon
                     className="w-5 h-5"
                     style={{
-                      color: isActive ? '#f43f5e' : 'rgba(255,255,255,0.45)',
+                      color: isActive ? 'var(--sanjog-rose)' : 'var(--sanjog-text-secondary)',
                     }}
                   />
                 )}
@@ -92,7 +90,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               <span
                 className="text-[10px] font-medium leading-none"
                 style={{
-                  color: isActive ? '#f43f5e' : 'rgba(255,255,255,0.35)',
+                  color: isActive ? 'var(--sanjog-rose)' : 'var(--sanjog-text-muted)',
                   fontFamily: 'Inter, sans-serif',
                 }}
               >

@@ -75,7 +75,7 @@ export function MatchesScreen({ session }: MatchesScreenProps) {
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3].map(i => (
-            <div key={i} className="glass-card p-4 flex gap-4">
+            <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex gap-4">
               <div className="w-16 h-16 rounded-2xl shimmer flex-shrink-0" />
               <div className="flex-1 space-y-2.5 pt-1">
                 <div className="h-4 w-24 rounded-lg shimmer" />
@@ -86,7 +86,7 @@ export function MatchesScreen({ session }: MatchesScreenProps) {
           ))}
         </div>
       ) : matches.length === 0 ? (
-        <div className="glass-card p-8 text-center space-y-4">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center space-y-4">
           <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto" style={{ background: 'rgba(217,70,239,0.15)', border: '1px solid rgba(217,70,239,0.3)' }}>
             <Sparkles className="w-8 h-8" style={{ color: '#d946ef' }} />
           </div>
@@ -105,7 +105,7 @@ export function MatchesScreen({ session }: MatchesScreenProps) {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.07, type: 'spring', stiffness: 300, damping: 24 }}
-                className="glass-card p-4 cursor-pointer card-hover"
+                className="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-4 cursor-pointer hover:border-pink-200 hover:shadow-md transition-all"
                 onClick={() => setActiveConversation(match.id)}
               >
                 <div className="flex gap-4">

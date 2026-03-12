@@ -16,21 +16,19 @@ interface ProfileScreenProps {
   onUpdateProfile: (profile: any) => void;
 }
 
-/* ─── Glassmorphism helpers (shared style with auth screen) ─── */
+/* ─── Light Theme Helpers ─── */
 function GlassInput({ icon: Icon, ...props }: any) {
   return (
     <div className="relative">
       {Icon && (
-        <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'rgba(255,255,255,0.35)' }} />
+        <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--sanjog-text-secondary)' }} />
       )}
       <input
         {...props}
-        className={`w-full px-4 py-2.5 rounded-xl text-sm bg-transparent outline-none transition-all duration-200
-          focus:ring-1 focus:ring-pink-500/40 ${Icon ? 'pl-10' : ''} ${props.className || ''}`}
+        className={`w-full px-4 py-2.5 rounded-xl text-[15px] outline-none transition-all duration-200
+          focus:ring-2 focus:ring-pink-500/20 bg-gray-50 border border-gray-200 ${Icon ? 'pl-10' : ''} ${props.className || ''}`}
         style={{
-          background: 'rgba(255,255,255,0.06)',
-          border: '1px solid rgba(255,255,255,0.10)',
-          color: '#fff',
+          color: 'var(--sanjog-text-primary)',
           caretColor: '#d946ef',
           ...props.style
         }}
@@ -43,21 +41,19 @@ function GlassSelect({ icon: Icon, children, ...props }: any) {
   return (
     <div className="relative">
       {Icon && (
-        <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'rgba(255,255,255,0.35)' }} />
+        <Icon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--sanjog-text-secondary)' }} />
       )}
       <select
         {...props}
-        className={`w-full px-4 py-2.5 rounded-xl text-sm bg-transparent outline-none appearance-none cursor-pointer
-          focus:ring-1 focus:ring-pink-500/40 ${Icon ? 'pl-10' : ''}`}
+        className={`w-full px-4 py-2.5 rounded-xl text-[15px] outline-none appearance-none cursor-pointer
+          focus:ring-2 focus:ring-pink-500/20 bg-gray-50 border border-gray-200 ${Icon ? 'pl-10' : ''}`}
         style={{
-          background: 'rgba(255,255,255,0.06)',
-          border: '1px solid rgba(255,255,255,0.10)',
-          color: '#fff',
+          color: 'var(--sanjog-text-primary)',
         }}
       >
         {children}
       </select>
-      <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 rotate-90 pointer-events-none" style={{ color: 'rgba(255,255,255,0.3)' }} />
+      <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 rotate-90 pointer-events-none" style={{ color: 'var(--sanjog-text-tertiary)' }} />
     </div>
   );
 }
@@ -174,21 +170,21 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
       <div className="flex items-center justify-between pt-2 pb-2">
         <div className="flex items-center gap-2">
           <User className="w-5 h-5" style={{ color: '#8b5cf6' }} />
-          <h2 className="text-xl font-bold" style={{ fontFamily: 'Outfit, sans-serif' }}>Your Profile</h2>
+          <h2 className="text-xl font-bold" style={{ fontFamily: 'Outfit, sans-serif', color: 'var(--sanjog-text-primary)' }}>Your Profile</h2>
           {!userProfile.profileComplete && (
-            <span className="px-2 py-0.5 rounded-full text-xs" style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)', color: '#f59e0b' }}>Incomplete</span>
+            <span className="px-2 py-0.5 rounded-full text-xs font-medium" style={{ background: '#FFFBEB', border: '1px solid #FDE68A', color: '#D97706' }}>Incomplete</span>
           )}
         </div>
         {!isEditing ? (
-          <motion.button whileTap={{ scale: 0.92 }} onClick={startEditing} className="btn-glass px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5">
+          <motion.button whileTap={{ scale: 0.92 }} onClick={startEditing} className="px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 bg-gray-100 text-gray-700 hover:bg-gray-200">
             <Edit className="w-3.5 h-3.5" /> Edit
           </motion.button>
         ) : (
           <div className="flex gap-2">
-            <motion.button whileTap={{ scale: 0.92 }} onClick={saveProfile} className="btn-glow px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5">
+            <motion.button whileTap={{ scale: 0.92 }} onClick={saveProfile} className="btn-glow px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 text-white">
               <Save className="w-3.5 h-3.5" /> Save
             </motion.button>
-            <motion.button whileTap={{ scale: 0.92 }} onClick={cancelEditing} className="btn-glass px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5">
+            <motion.button whileTap={{ scale: 0.92 }} onClick={cancelEditing} className="px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 bg-gray-100 text-gray-700 hover:bg-gray-200">
               <X className="w-3.5 h-3.5" /> Cancel
             </motion.button>
           </div>
@@ -198,16 +194,14 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
       {/* ═══════════════════════════════════════════
           HERO CARD
          ═══════════════════════════════════════════ */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-5 space-y-4">
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-4">
         <div className="flex items-start gap-4">
           {/* Avatar */}
           <div className="relative flex-shrink-0">
-            <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold"
-              style={{ background: 'linear-gradient(135deg, #1a1535, #2d1b4e)', border: '2px solid transparent', backgroundClip: 'padding-box' }}>
-              <div className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(135deg, #f43f5e, #d946ef)', zIndex: -1, borderRadius: '14px' }} />
-              <div className="w-full h-full rounded-2xl flex items-center justify-center text-3xl font-bold relative"
-                style={{ background: 'linear-gradient(135deg, #1a1535, #2d1b4e)' }}>
-                <span style={{ color: 'rgba(255,255,255,0.7)' }}>{userProfile.name?.charAt(0) || '?'}</span>
+            <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold bg-gray-100 text-gray-400 border-2 border-transparent relative">
+              <div className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(135deg, #f43f5e, #d946ef)', zIndex: -1, margin: '-2px' }} />
+              <div className="w-full h-full rounded-2xl flex items-center justify-center text-3xl font-bold bg-white text-gray-600 relative z-10">
+                <span>{userProfile.name?.charAt(0) || '?'}</span>
               </div>
             </div>
           </div>
@@ -215,8 +209,8 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
           <div className="flex-1 min-w-0">
             {!isEditing ? (
               <>
-                <h3 className="text-xl font-bold mb-0.5" style={{ fontFamily: 'Outfit, sans-serif' }}>{userProfile.name || 'Your Name'}</h3>
-                <p className="text-sm mb-2" style={{ color: 'rgba(255,255,255,0.45)' }}>{userProfile.email || session?.user?.email}</p>
+                <h3 className="text-xl font-bold mb-0.5 text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>{userProfile.name || 'Your Name'}</h3>
+                <p className="text-sm mb-2 text-gray-500 font-medium">{userProfile.email || session?.user?.email}</p>
               </>
             ) : (
               <div className="space-y-2 mb-2">
@@ -227,10 +221,10 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
             <div className="flex flex-wrap gap-1.5">
               {!isEditing ? (
                 <>
-                  {userProfile.age && <span className="text-xs px-2.5 py-1 rounded-full glass" style={{ color: 'rgba(255,255,255,0.6)' }}>🎂 {userProfile.age}</span>}
-                  {userProfile.gender && <span className="text-xs px-2.5 py-1 rounded-full glass capitalize" style={{ color: 'rgba(255,255,255,0.6)' }}>{userProfile.gender}</span>}
-                  {userProfile.height && <span className="text-xs px-2.5 py-1 rounded-full glass" style={{ color: 'rgba(255,255,255,0.6)' }}>📏 {userProfile.height}</span>}
-                  {userProfile.city && <span className="text-xs px-2.5 py-1 rounded-full glass" style={{ color: 'rgba(255,255,255,0.6)' }}>📍 {userProfile.city}</span>}
+                  {userProfile.age && <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 border border-gray-200">🎂 {userProfile.age}</span>}
+                  {userProfile.gender && <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 border border-gray-200 capitalize">{userProfile.gender}</span>}
+                  {userProfile.height && <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 border border-gray-200">📏 {userProfile.height}</span>}
+                  {userProfile.city && <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 border border-gray-200">📍 {userProfile.city}</span>}
                 </>
               ) : (
                 <div className="grid grid-cols-2 gap-2 w-full">
@@ -262,21 +256,21 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
             { icon: Star, label: 'Matches', value: '—', color: '#d946ef' },
             { icon: Eye, label: 'Views', value: '—', color: '#8b5cf6' },
           ].map(({ icon: Icon, label, value, color }) => (
-            <div key={label} className="rounded-xl p-3 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div key={label} className="rounded-xl p-3 text-center bg-gray-50 border border-gray-100">
               <Icon className="w-4 h-4 mx-auto mb-1" style={{ color }} />
               <div className="text-base font-bold" style={{ color }}>{value}</div>
-              <div className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>{label}</div>
+              <div className="text-xs font-medium text-gray-500">{label}</div>
             </div>
           ))}
         </div>
 
         {/* Profile completion */}
         <div>
-          <div className="flex justify-between text-xs mb-1.5">
-            <span style={{ color: 'rgba(255,255,255,0.6)' }}>Profile Completion</span>
+          <div className="flex justify-between text-xs font-semibold mb-1.5">
+            <span className="text-gray-500">Profile Completion</span>
             <span style={{ color: '#d946ef' }}>{getCompletion()}%</span>
           </div>
-          <div className="h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
+          <div className="h-1.5 rounded-full bg-gray-100">
             <div className="h-full rounded-full transition-all duration-700" style={{ width: `${getCompletion()}%`, background: 'linear-gradient(90deg, #f43f5e, #d946ef)' }} />
           </div>
         </div>
@@ -285,15 +279,15 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
       {/* ═══════════════════════════════════════════
           BIO CARD
          ═══════════════════════════════════════════ */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.03 }} className="glass-card p-4 space-y-3">
-        <h3 className="font-semibold text-sm flex items-center gap-2" style={{ fontFamily: 'Outfit, sans-serif', color: 'rgba(255,255,255,0.85)' }}>
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.03 }} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
+        <h3 className="font-semibold text-sm flex items-center gap-2 text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>
           ✍️ About Me
         </h3>
         {!isEditing ? (
           userProfile.bio ? (
-            <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>{userProfile.bio}</p>
+            <p className="text-sm leading-relaxed text-gray-600 font-medium">{userProfile.bio}</p>
           ) : (
-            <p className="text-sm italic" style={{ color: 'rgba(255,255,255,0.3)' }}>No bio yet — tap Edit to add one!</p>
+            <p className="text-sm italic text-gray-400 font-medium">No bio yet — tap Edit to add one!</p>
           )
         ) : (
           <div className="space-y-1">
@@ -303,10 +297,10 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
               placeholder="What makes you unique? Write a few lines…"
               rows={4}
               maxLength={300}
-              className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none focus:ring-1 focus:ring-pink-500/40"
-              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)', color: '#fff', caretColor: '#d946ef' }}
+              className="w-full px-4 py-3 rounded-xl text-[15px] outline-none resize-none focus:ring-2 focus:ring-pink-500/20 bg-gray-50 border border-gray-200 text-gray-900 font-medium"
+              style={{ caretColor: '#d946ef' }}
             />
-            <p className="text-right text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>{(editData.bio || '').length}/300</p>
+            <p className="text-right text-xs font-semibold text-gray-400">{(editData.bio || '').length}/300</p>
           </div>
         )}
       </motion.div>
@@ -314,8 +308,8 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
       {/* ═══════════════════════════════════════════
           WORK & EDUCATION CARD
          ═══════════════════════════════════════════ */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="glass-card p-4 space-y-3">
-        <h3 className="font-semibold text-sm flex items-center gap-2" style={{ fontFamily: 'Outfit, sans-serif', color: 'rgba(255,255,255,0.85)' }}>
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
+        <h3 className="font-semibold text-sm flex items-center gap-2 text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>
           💼 Work & Education
         </h3>
         {!isEditing ? (
@@ -324,20 +318,20 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
               {userProfile.education && (
                 <div className="flex items-center gap-2.5">
                   <GraduationCap className="w-4 h-4 flex-shrink-0" style={{ color: '#8b5cf6' }} />
-                  <span className="text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>{userProfile.education}</span>
+                  <span className="text-[15px] font-medium text-gray-700">{userProfile.education}</span>
                 </div>
               )}
               {(userProfile.jobTitle || userProfile.company) && (
                 <div className="flex items-center gap-2.5">
                   <Briefcase className="w-4 h-4 flex-shrink-0" style={{ color: '#d946ef' }} />
-                  <span className="text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                  <span className="text-[15px] font-medium text-gray-700">
                     {[userProfile.jobTitle, userProfile.company].filter(Boolean).join(' at ')}
                   </span>
                 </div>
               )}
             </div>
           ) : (
-            <p className="text-sm italic" style={{ color: 'rgba(255,255,255,0.3)' }}>No work/education info — tap Edit to add!</p>
+            <p className="text-sm italic text-gray-400 font-medium">No work/education info — tap Edit to add!</p>
           )
         ) : (
           <div className="space-y-2">
@@ -353,11 +347,11 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
       {/* ═══════════════════════════════════════════
           INTERESTS CARD
          ═══════════════════════════════════════════ */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.07 }} className="glass-card p-4 space-y-3">
-        <h3 className="font-semibold text-sm flex items-center gap-2" style={{ fontFamily: 'Outfit, sans-serif', color: 'rgba(255,255,255,0.85)' }}>
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.07 }} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
+        <h3 className="font-semibold text-sm flex items-center gap-2 text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>
           ✨ Interests
           {!isEditing && userProfile.interests?.length > 0 && (
-            <span className="text-xs font-normal px-2 py-0.5 rounded-full" style={{ background: 'rgba(217,70,239,0.12)', color: '#d946ef' }}>
+            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">
               {userProfile.interests.length}
             </span>
           )}
@@ -366,14 +360,13 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
           userProfile.interests?.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {userProfile.interests.map((interest: string) => (
-                <span key={interest} className="px-3 py-1.5 rounded-xl text-sm font-medium"
-                  style={{ background: 'linear-gradient(135deg, rgba(244,63,94,0.15), rgba(217,70,239,0.15))', border: '1px solid rgba(244,63,94,0.25)', color: 'rgba(255,255,255,0.8)' }}>
+                <span key={interest} className="px-3 py-1.5 rounded-xl text-sm font-semibold bg-pink-50 text-pink-600 border border-pink-100">
                   {interest}
                 </span>
               ))}
             </div>
           ) : (
-            <p className="text-sm italic" style={{ color: 'rgba(255,255,255,0.3)' }}>No interests selected — tap Edit to pick some!</p>
+            <p className="text-sm italic text-gray-400 font-medium">No interests selected — tap Edit to pick some!</p>
           )
         ) : (
           <div className="space-y-2">
@@ -383,11 +376,11 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
                 return (
                   <motion.button key={interest} whileTap={{ scale: 0.92 }}
                     onClick={() => handleInterestToggle(interest)}
-                    className="px-3 py-1.5 rounded-xl text-sm font-medium transition-all"
+                    className="px-3 py-1.5 rounded-xl text-sm font-semibold transition-all border"
                     style={{
-                      background: active ? 'linear-gradient(135deg, rgba(244,63,94,0.25), rgba(217,70,239,0.25))' : 'rgba(255,255,255,0.05)',
-                      border: active ? '1px solid rgba(244,63,94,0.5)' : '1px solid rgba(255,255,255,0.08)',
-                      color: active ? '#fff' : 'rgba(255,255,255,0.6)',
+                      background: active ? '#fdf2f8' : '#f9fafb',
+                      borderColor: active ? '#fbcfe8' : '#f3f4f6',
+                      color: active ? '#db2777' : '#6b7280',
                     }}
                   >
                     {interest}
@@ -395,7 +388,7 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
                 );
               })}
             </div>
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            <p className="text-xs font-semibold text-gray-400">
               {(editData.interests || []).length} selected {(editData.interests || []).length < 3 && '(min 3)'}
             </p>
           </div>
@@ -405,52 +398,51 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
       {/* ═══════════════════════════════════════════
           DATING PREFERENCES CARD
          ═══════════════════════════════════════════ */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.09 }} className="glass-card p-4 space-y-3">
-        <h3 className="font-semibold text-sm flex items-center gap-2" style={{ fontFamily: 'Outfit, sans-serif', color: 'rgba(255,255,255,0.85)' }}>
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.09 }} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
+        <h3 className="font-semibold text-sm flex items-center gap-2 text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>
           💞 Dating Preferences
         </h3>
         {!isEditing ? (
           (userProfile.interestedIn || userProfile.ageRangeMin || userProfile.distancePref) ? (
             <div className="grid grid-cols-3 gap-2">
               {userProfile.interestedIn && (
-                <div className="rounded-xl p-3 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                  <div className="text-xs font-medium mb-1" style={{ color: '#f43f5e' }}>Interested In</div>
-                  <div className="text-sm capitalize" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                <div className="rounded-xl p-3 text-center bg-gray-50 border border-gray-100">
+                  <div className="text-xs font-semibold mb-1" style={{ color: '#f43f5e' }}>Interested In</div>
+                  <div className="text-[15px] font-medium text-gray-700 capitalize">
                     {userProfile.interestedIn === 'male' ? 'Men' : userProfile.interestedIn === 'female' ? 'Women' : 'Everyone'}
                   </div>
                 </div>
               )}
               {(userProfile.ageRangeMin || userProfile.ageRangeMax) && (
-                <div className="rounded-xl p-3 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                  <div className="text-xs font-medium mb-1" style={{ color: '#d946ef' }}>Age Range</div>
-                  <div className="text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>{userProfile.ageRangeMin || '18'} – {userProfile.ageRangeMax || '35'}</div>
+                <div className="rounded-xl p-3 text-center bg-gray-50 border border-gray-100">
+                  <div className="text-xs font-semibold mb-1" style={{ color: '#d946ef' }}>Age Range</div>
+                  <div className="text-[15px] font-medium text-gray-700">{userProfile.ageRangeMin || '18'} – {userProfile.ageRangeMax || '35'}</div>
                 </div>
               )}
               {userProfile.distancePref && (
-                <div className="rounded-xl p-3 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                  <div className="text-xs font-medium mb-1" style={{ color: '#8b5cf6' }}>Distance</div>
-                  <div className="text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>{userProfile.distancePref} km</div>
+                <div className="rounded-xl p-3 text-center bg-gray-50 border border-gray-100">
+                  <div className="text-xs font-semibold mb-1" style={{ color: '#8b5cf6' }}>Distance</div>
+                  <div className="text-[15px] font-medium text-gray-700">{userProfile.distancePref} km</div>
                 </div>
               )}
             </div>
           ) : (
-            <p className="text-sm italic" style={{ color: 'rgba(255,255,255,0.3)' }}>No preferences set — tap Edit to configure!</p>
+            <p className="text-sm italic text-gray-400 font-medium">No preferences set — tap Edit to configure!</p>
           )
         ) : (
           <div className="space-y-4">
             {/* Interested In */}
             <div className="space-y-1.5">
-              <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Interested In</label>
+              <label className="text-xs font-semibold text-gray-500">Interested In</label>
               <div className="grid grid-cols-3 gap-2">
                 {[{ v: 'male', l: 'Men' }, { v: 'female', l: 'Women' }, { v: 'everyone', l: 'Everyone' }].map(opt => (
                   <motion.button key={opt.v} whileTap={{ scale: 0.95 }}
                     onClick={() => setEditData({ ...editData, interestedIn: opt.v })}
-                    className="py-2.5 rounded-xl text-sm font-medium text-center transition-all"
+                    className="py-2.5 rounded-xl text-sm font-semibold text-center transition-all border"
                     style={{
-                      background: editData.interestedIn === opt.v ? 'linear-gradient(135deg, #f43f5e, #d946ef)' : 'rgba(255,255,255,0.05)',
-                      border: editData.interestedIn === opt.v ? 'none' : '1px solid rgba(255,255,255,0.10)',
-                      color: '#fff',
-                      boxShadow: editData.interestedIn === opt.v ? '0 4px 20px rgba(244,63,94,0.3)' : 'none',
+                      background: editData.interestedIn === opt.v ? '#fdf2f8' : '#f9fafb',
+                      borderColor: editData.interestedIn === opt.v ? '#fbcfe8' : '#e5e7eb',
+                      color: editData.interestedIn === opt.v ? '#db2777' : '#6b7280',
                     }}
                   >{opt.l}</motion.button>
                 ))}
@@ -458,14 +450,14 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
             </div>
             {/* Age Range */}
             <div className="space-y-1.5">
-              <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <label className="text-xs font-semibold text-gray-500">
                 Age Range: {editData.ageRangeMin || '18'} – {editData.ageRangeMax || '35'}
               </label>
               <div className="flex gap-3 items-center">
                 <input type="range" min="18" max="60" value={editData.ageRangeMin || '18'}
                   onChange={e => setEditData({ ...editData, ageRangeMin: e.target.value })}
                   className="flex-1 accent-pink-500" />
-                <span className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>to</span>
+                <span className="text-xs font-medium text-gray-400">to</span>
                 <input type="range" min="18" max="60" value={editData.ageRangeMax || '35'}
                   onChange={e => setEditData({ ...editData, ageRangeMax: e.target.value })}
                   className="flex-1 accent-purple-500" />
@@ -473,7 +465,7 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
             </div>
             {/* Distance */}
             <div className="space-y-1.5">
-              <label className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <label className="text-xs font-semibold text-gray-500">
                 Maximum Distance: {editData.distancePref || '25'} km
               </label>
               <input type="range" min="5" max="100" value={editData.distancePref || '25'}
@@ -487,8 +479,8 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
       {/* ═══════════════════════════════════════════
           PHOTOS CARD
          ═══════════════════════════════════════════ */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.11 }} className="glass-card p-4">
-        <h3 className="font-semibold text-sm mb-3 flex items-center gap-2" style={{ fontFamily: 'Outfit, sans-serif', color: 'rgba(255,255,255,0.85)' }}>
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.11 }} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+        <h3 className="font-semibold text-sm mb-3 flex items-center gap-2 text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>
           📸 Your Photos
         </h3>
         <PhotoUpload
@@ -497,9 +489,9 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
           session={session}
         />
         {(!localPhotos || localPhotos.length === 0) && (
-          <div className="mt-3 rounded-xl p-3 flex items-center justify-between" style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}>
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>Had photos before? Try recovering them.</p>
-            <motion.button whileTap={{ scale: 0.92 }} onClick={() => setShowPhotoRecovery(true)} className="btn-glass px-2.5 py-1 rounded-lg text-xs flex items-center gap-1">
+          <div className="mt-3 rounded-xl p-3 flex items-center justify-between" style={{ background: '#FFFBEB', border: '1px solid #FDE68A' }}>
+            <p className="text-xs font-semibold text-amber-700">Had photos before? Try recovering them.</p>
+            <motion.button whileTap={{ scale: 0.92 }} onClick={() => setShowPhotoRecovery(true)} className="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 bg-amber-100 text-amber-800">
               <RefreshCw className="w-3 h-3" /> Recover
             </motion.button>
           </div>
@@ -509,17 +501,17 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
       {/* ═══════════════════════════════════════════
           AI PROFILE REVIEW CARD
          ═══════════════════════════════════════════ */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.13 }} className="glass-card p-4 space-y-4" style={{ background: 'linear-gradient(135deg, rgba(217,70,239,0.05), rgba(139,92,246,0.05))', border: '1px solid rgba(217,70,239,0.2)' }}>
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.13 }} className="bg-purple-50 rounded-2xl border border-purple-100 shadow-sm p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="font-bold text-sm flex items-center gap-2" style={{ fontFamily: 'Outfit, sans-serif', color: '#d946ef' }}>
+          <h3 className="font-bold text-sm flex items-center gap-2 text-purple-600" style={{ fontFamily: 'Outfit, sans-serif' }}>
             <Sparkles className="w-4 h-4" /> AI Profile Review
           </h3>
         </div>
 
         {!reviewData && !isReviewing && (
           <div className="text-center space-y-3">
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>Want to know how to get more matches? Let Sanjog AI review your profile and give you a Roast & Boast!</p>
-            <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateReview} className="w-full btn-glow py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
+            <p className="text-xs font-semibold text-purple-900/60">Want to know how to get more matches? Let Sanjog AI review your profile and give you a Roast & Boast!</p>
+            <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateReview} className="w-full btn-glow py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 text-white">
               <Sparkles className="w-4 h-4" /> Review My Profile
             </motion.button>
           </div>
@@ -527,26 +519,26 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
 
         {isReviewing && (
           <div className="flex flex-col items-center justify-center py-4 gap-3">
-            <div className="flex gap-2"><span className="typing-dot" /><span className="typing-dot" /><span className="typing-dot" /></div>
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Analyzing your vibe...</p>
+            <div className="flex gap-2"><span className="typing-dot bg-purple-500" /><span className="typing-dot bg-purple-500" /><span className="typing-dot bg-purple-500" /></div>
+            <p className="text-xs font-semibold text-purple-400">Analyzing your vibe...</p>
           </div>
         )}
 
         {reviewData && !isReviewing && (
           <div className="space-y-3">
-            <div className="p-3 rounded-xl space-y-1" style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)' }}>
-              <div className="text-xs font-bold text-green-400 flex items-center gap-1.5"><Heart className="w-3.5 h-3.5" /> The Boast</div>
-              <p className="text-sm text-green-100">{reviewData.boast}</p>
+            <div className="p-3 rounded-xl space-y-1 bg-green-50 border border-green-100">
+              <div className="text-xs font-bold text-green-600 flex items-center gap-1.5"><Heart className="w-3.5 h-3.5" /> The Boast</div>
+              <p className="text-[14px] font-medium text-green-800">{reviewData.boast}</p>
             </div>
-            <div className="p-3 rounded-xl space-y-1" style={{ background: 'rgba(244,63,94,0.1)', border: '1px solid rgba(244,63,94,0.2)' }}>
-              <div className="text-xs font-bold text-rose-400 flex items-center gap-1.5"><Eye className="w-3.5 h-3.5" /> The Roast</div>
-              <p className="text-sm text-rose-100">{reviewData.roast}</p>
+            <div className="p-3 rounded-xl space-y-1 bg-rose-50 border border-rose-100">
+              <div className="text-xs font-bold text-rose-600 flex items-center gap-1.5"><Eye className="w-3.5 h-3.5" /> The Roast</div>
+              <p className="text-[14px] font-medium text-rose-800">{reviewData.roast}</p>
             </div>
-            <div className="p-3 rounded-xl space-y-1" style={{ background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.2)' }}>
-              <div className="text-xs font-bold text-purple-400 flex items-center gap-1.5"><Star className="w-3.5 h-3.5" /> Top Tip</div>
-              <p className="text-sm text-purple-100">{reviewData.tip}</p>
+            <div className="p-3 rounded-xl space-y-1 bg-purple-50 border border-purple-100">
+              <div className="text-xs font-bold text-purple-600 flex items-center gap-1.5"><Star className="w-3.5 h-3.5" /> Top Tip</div>
+              <p className="text-[14px] font-medium text-purple-800">{reviewData.tip}</p>
             </div>
-            <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateReview} className="w-full py-2 flex items-center justify-center gap-1.5 text-xs mt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateReview} className="w-full py-2 flex items-center justify-center gap-1.5 text-xs mt-2 font-semibold text-purple-500">
               <RefreshCw className="w-3.5 h-3.5" /> Review Again
             </motion.button>
           </div>
@@ -556,9 +548,9 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
       {/* ═══════════════════════════════════════════
           PERSONALITY PROFILE CARD
          ═══════════════════════════════════════════ */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="glass-card p-4 space-y-3">
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-sm flex items-center gap-2" style={{ fontFamily: 'Outfit, sans-serif', color: 'rgba(255,255,255,0.85)' }}>
+          <h3 className="font-semibold text-sm flex items-center gap-2 text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>
             <Sparkles className="w-4 h-4" style={{ color: '#d946ef' }} /> Personality Profile
           </h3>
         </div>
@@ -567,39 +559,37 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
           userProfile.personality && Object.keys(userProfile.personality).length > 0 ? (
             <div className="grid grid-cols-2 gap-2">
               {Object.entries(userProfile.personality).map(([key, value], i) => (
-                <div key={i} className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                  <div className="text-xs font-medium capitalize mb-0.5" style={{ color: '#d946ef' }}>{key.replace(/_/g, ' ')}</div>
-                  <div className="text-xs capitalize" style={{ color: 'rgba(255,255,255,0.65)' }}>{String(value)}</div>
+                <div key={i} className="rounded-xl p-3 bg-gray-50 border border-gray-100">
+                  <div className="text-xs font-semibold capitalize mb-0.5" style={{ color: '#d946ef' }}>{key.replace(/_/g, ' ')}</div>
+                  <div className="text-[13px] font-medium capitalize text-gray-700">{String(value)}</div>
                 </div>
               ))}
             </div>
           ) : (
             <div className="text-center py-6 space-y-3">
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto" style={{ background: 'rgba(217,70,239,0.12)', border: '1px solid rgba(217,70,239,0.25)' }}>
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto bg-fuchsia-50 border border-fuchsia-100">
                 <Sparkles className="w-6 h-6" style={{ color: '#d946ef' }} />
               </div>
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Chat with Sanjog AI to discover your personality traits.</p>
+              <p className="text-sm font-medium text-gray-500">Chat with Sanjog AI to discover your personality traits.</p>
             </div>
           )
         ) : (
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>Personality Traits</span>
+              <span className="text-xs font-semibold text-gray-500">Personality Traits</span>
               <motion.button whileTap={{ scale: 0.92 }} onClick={() => { const n = { ...editData }; if (!n.personality) n.personality = {}; n.personality[`trait_${Date.now()}`] = ''; setEditData(n); }}
-                className="btn-glass px-2 py-1 rounded-lg text-xs flex items-center gap-1"><Plus className="w-3 h-3" /> Add</motion.button>
+                className="px-2 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 bg-gray-100 text-gray-700 hover:bg-gray-200"><Plus className="w-3 h-3" /> Add</motion.button>
             </div>
             {editData.personality && Object.entries(editData.personality).map(([key, value], i) => (
               <div key={i} className="flex gap-2">
-                <input className="flex-1 px-3 py-2 rounded-xl text-xs outline-none" placeholder="Trait"
-                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)', color: '#fff' }}
+                <input className="flex-1 px-3 py-2 rounded-xl text-xs outline-none bg-gray-50 border border-gray-200 text-gray-900 font-medium" placeholder="Trait"
                   value={key.replace(/_/g, ' ')}
                   onChange={e => { const n = { ...editData }; const nk = e.target.value.replace(/ /g, '_'); delete n.personality[key]; n.personality[nk] = value; setEditData(n); }} />
-                <input className="flex-1 px-3 py-2 rounded-xl text-xs outline-none" placeholder="Description"
-                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)', color: '#fff' }}
+                <input className="flex-1 px-3 py-2 rounded-xl text-xs outline-none bg-gray-50 border border-gray-200 text-gray-900 font-medium" placeholder="Description"
                   value={String(value)}
                   onChange={e => { const n = { ...editData }; n.personality[key] = e.target.value; setEditData(n); }} />
                 <motion.button whileTap={{ scale: 0.88 }} onClick={() => { const n = { ...editData }; delete n.personality[key]; setEditData(n); }}
-                  className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)' }}>
+                  className="w-9 h-9 rounded-xl flex items-center justify-center bg-red-50 border border-red-100">
                   <X className="w-3.5 h-3.5" style={{ color: '#ef4444' }} />
                 </motion.button>
               </div>
@@ -612,14 +602,13 @@ export function ProfileScreen({ session, userProfile, onUpdateProfile }: Profile
       <AnimatePresence>
         {showPhotoRecovery && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-end justify-center p-4"
-            style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
+            className="fixed inset-0 z-50 flex items-end justify-center p-4 bg-black/40 backdrop-blur-sm"
             onClick={() => setShowPhotoRecovery(false)}>
             <motion.div initial={{ y: 100 }} animate={{ y: 0 }} exit={{ y: 100 }} transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-              className="glass-card p-4 w-full max-w-2xl" onClick={e => e.stopPropagation()} style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+              className="bg-white rounded-2xl shadow-xl border border-gray-100 p-4 w-full max-w-2xl" onClick={e => e.stopPropagation()} style={{ maxHeight: '80vh', overflowY: 'auto' }}>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold" style={{ fontFamily: 'Outfit, sans-serif' }}>Photo Recovery</h3>
-                <motion.button whileTap={{ scale: 0.9 }} onClick={() => setShowPhotoRecovery(false)} className="w-8 h-8 rounded-xl flex items-center justify-center btn-glass">
+                <h3 className="font-bold text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>Photo Recovery</h3>
+                <motion.button whileTap={{ scale: 0.9 }} onClick={() => setShowPhotoRecovery(false)} className="w-8 h-8 rounded-xl flex items-center justify-center bg-gray-100 text-gray-500 hover:bg-gray-200">
                   <X className="w-4 h-4" />
                 </motion.button>
               </div>

@@ -103,15 +103,15 @@ export function ProfileDetailView({ profile, onBack, onLike, onPass, onMessage }
       <div className="flex-1 overflow-y-auto px-4 pt-4 pb-28 space-y-4">
         {/* Bio */}
         {profile.bio && (
-          <div className="glass-card p-4">
-            <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.75)' }}>{profile.bio}</p>
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+            <p className="text-[15px] leading-relaxed text-gray-700 font-medium">{profile.bio}</p>
           </div>
         )}
 
         {/* Interests */}
         {profile.interests?.length > 0 && (
-          <div className="glass-card p-4 space-y-3">
-            <h3 className="font-semibold text-sm flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.9)', fontFamily: 'Outfit, sans-serif' }}>
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
+            <h3 className="font-bold text-[15px] flex items-center gap-2 text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>
               <Music className="w-4 h-4" style={{ color: '#d946ef' }} /> Interests
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -126,8 +126,8 @@ export function ProfileDetailView({ profile, onBack, onLike, onPass, onMessage }
         )}
 
         {/* Lifestyle */}
-        <div className="glass-card p-4 space-y-3">
-          <h3 className="font-semibold text-sm flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.9)', fontFamily: 'Outfit, sans-serif' }}>
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
+          <h3 className="font-bold text-[15px] flex items-center gap-2 text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>
             <Coffee className="w-4 h-4" style={{ color: '#f59e0b' }} /> Lifestyle
           </h3>
           <div className="space-y-2">
@@ -138,8 +138,8 @@ export function ProfileDetailView({ profile, onBack, onLike, onPass, onMessage }
               { Icon: Heart, label: 'Looking for something serious' },
             ].map(({ Icon, label }, i) => (
               <div key={i} className="flex items-center gap-3 py-1">
-                <Icon className="w-4 h-4 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.4)' }} />
-                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>{label}</span>
+                <Icon className="w-4 h-4 flex-shrink-0 text-gray-400" />
+                <span className="text-[14px] font-medium text-gray-600">{label}</span>
               </div>
             ))}
           </div>

@@ -232,33 +232,32 @@ export function Conversation({ session, conversationId, onBack }: ConversationPr
 
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center" style={{ background: '#0d0d1a' }}>
-        <div className="flex gap-2"><span className="typing-dot" /><span className="typing-dot" /><span className="typing-dot" /></div>
+      <div className="h-full flex items-center justify-center bg-gray-50">
+        <div className="flex gap-2"><span className="typing-dot bg-purple-500" /><span className="typing-dot bg-purple-500" /><span className="typing-dot bg-purple-500" /></div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-full" style={{ background: 'linear-gradient(160deg, #080810 0%, #12112a 50%, #080810 100%)', position: 'fixed', inset: 0, zIndex: 40 }}>
+    <div className="flex flex-col h-full bg-gray-50 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed" style={{ position: 'fixed', inset: 0, zIndex: 40 }}>
       {/* Header */}
-      <div className="glass-dark flex items-center gap-3 px-4 py-3 pt-safe flex-shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-        <motion.button whileTap={{ scale: 0.9 }} onClick={onBack} className="btn-glass w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0">
+      <div className="bg-white/80 backdrop-blur-xl flex items-center gap-3 px-4 py-3 pt-safe flex-shrink-0" style={{ borderBottom: '1px solid #f3f4f6' }}>
+        <motion.button whileTap={{ scale: 0.9 }} onClick={onBack} className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 bg-gray-100 text-gray-600 hover:bg-gray-200">
           <ArrowLeft className="w-5 h-5" />
         </motion.button>
 
         <div className="relative flex-shrink-0">
-          <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center text-sm font-bold"
-            style={{ background: 'linear-gradient(135deg, #1a1535, #2d1b4e)', color: 'rgba(255,255,255,0.8)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center text-sm font-bold bg-gray-100 text-gray-500 border border-gray-200">
             {otherParticipant?.name?.charAt(0) || '?'}
           </div>
-          <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2" style={{ background: '#4ade80', borderColor: '#0d0d1a' }} />
+          <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white bg-green-500" />
         </div>
 
         <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-sm truncate" style={{ fontFamily: 'Outfit, sans-serif' }}>{otherParticipant?.name || 'Unknown'}</h3>
+          <h3 className="font-bold text-sm truncate text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>{otherParticipant?.name || 'Unknown'}</h3>
           <div className="flex items-center gap-1.5">
-            <Shield className="w-3 h-3" style={{ color: '#4ade80' }} />
-            <span className="text-xs truncate" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <Shield className="w-3 h-3 text-green-500" />
+            <span className="text-xs truncate text-gray-500 font-medium">
               {otherParticipant?.id?.startsWith('sample') ? 'Demo chat' : 'Encrypted'}
             </span>
           </div>
@@ -269,30 +268,30 @@ export function Conversation({ session, conversationId, onBack }: ConversationPr
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full space-y-4 max-w-xs mx-auto text-center mt-10">
-            <div className="w-20 h-20 rounded-full flex items-center justify-center mb-2" style={{ background: 'linear-gradient(135deg, rgba(244,63,94,0.15), rgba(217,70,239,0.15))' }}>
-              <User className="w-8 h-8" style={{ color: '#d946ef' }} />
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mb-2 bg-pink-50 border border-pink-100">
+              <User className="w-8 h-8 text-pink-500" />
             </div>
-            <h4 className="font-bold text-lg" style={{ fontFamily: 'Outfit, sans-serif' }}>You matched with {otherParticipant?.name}!</h4>
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Don't keep them waiting. Say hello!</p>
+            <h4 className="font-bold text-lg text-gray-900" style={{ fontFamily: 'Outfit, sans-serif' }}>You matched with {otherParticipant?.name}!</h4>
+            <p className="text-sm text-gray-500 font-medium">Don't keep them waiting. Say hello!</p>
 
             {/* AI Wingman Section */}
             <div className="w-full mt-6 space-y-3">
               <div className="flex items-center gap-2 justify-center mb-2">
-                <Sparkles className="w-4 h-4" style={{ color: '#d946ef' }} />
-                <span className="text-xs font-semibold" style={{ color: '#d946ef' }}>AI Wingman</span>
+                <Sparkles className="w-4 h-4 text-purple-600" />
+                <span className="text-xs font-bold uppercase tracking-wider text-purple-600">AI Wingman</span>
               </div>
 
               {!icebreakers.length && !generatingIcebreakers && (
                 <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateIcebreakers}
-                  className="w-full btn-glow py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
+                  className="w-full btn-glow py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 text-white">
                   <Sparkles className="w-4 h-4" /> Generate Icebreakers
                 </motion.button>
               )}
 
               {generatingIcebreakers && (
-                <div className="glass-card p-4 flex flex-col items-center justify-center gap-3">
-                  <div className="flex gap-2"><span className="typing-dot" /><span className="typing-dot" /><span className="typing-dot" /></div>
-                  <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>Reading their profile...</span>
+                <div className="bg-white rounded-2xl p-4 flex flex-col items-center justify-center gap-3 border border-gray-100 shadow-sm">
+                  <div className="flex gap-2"><span className="typing-dot bg-purple-500" /><span className="typing-dot bg-purple-500" /><span className="typing-dot bg-purple-500" /></div>
+                  <span className="text-xs font-semibold text-gray-500">Reading their profile...</span>
                 </div>
               )}
 
@@ -301,13 +300,12 @@ export function Conversation({ session, conversationId, onBack }: ConversationPr
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-2">
                     {icebreakers.map((ib, i) => (
                       <motion.button key={i} whileTap={{ scale: 0.98 }} onClick={() => setNewMessage(ib)}
-                        className="w-full text-left p-3 rounded-xl text-sm transition-all"
-                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(217,70,239,0.3)', color: 'rgba(255,255,255,0.9)' }}>
+                        className="w-full text-left p-3 rounded-xl text-sm font-medium transition-all bg-purple-50 text-purple-900 border border-purple-100 hover:bg-purple-100">
                         {ib}
                       </motion.button>
                     ))}
                     <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateIcebreakers}
-                      className="w-full py-2 flex items-center justify-center gap-1.5 text-xs mt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                      className="w-full py-2 flex items-center justify-center gap-1.5 text-xs mt-2 font-semibold text-gray-500 hover:text-gray-700">
                       <RefreshCw className="w-3.5 h-3.5" /> Regenerate
                     </motion.button>
                   </motion.div>
@@ -323,25 +321,25 @@ export function Conversation({ session, conversationId, onBack }: ConversationPr
                 <div className="max-w-[85%]">
                   {msg.content?.startsWith('{"title"') ? (
                     // Render Date Plan Card
-                    <div className="rounded-2xl p-4 overflow-hidden relative" style={{ background: 'linear-gradient(135deg, rgba(217,70,239,0.1), rgba(139,92,246,0.1))', border: '1px solid rgba(217,70,239,0.3)' }}>
+                    <div className="rounded-2xl p-4 overflow-hidden relative shadow-sm" style={{ background: '#fdf4ff', border: '1px solid #fbcfe8' }}>
                       <div className="flex items-center gap-2 mb-2">
-                        <Sparkles className="w-4 h-4" style={{ color: '#d946ef' }} />
-                        <span className="text-xs font-bold tracking-wide uppercase" style={{ color: '#d946ef' }}>AI Date Plan</span>
+                        <Sparkles className="w-4 h-4 text-fuchsia-600" />
+                        <span className="text-xs font-bold tracking-wide uppercase text-fuchsia-600">AI Date Plan</span>
                       </div>
                       {(() => {
                         try {
                           const plan = JSON.parse(msg.content);
                           return (
                             <div className="space-y-3">
-                              <h4 className="font-bold text-base text-white">{plan.title}</h4>
-                              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>{plan.description}</p>
+                              <h4 className="font-bold text-base text-gray-900">{plan.title}</h4>
+                              <p className="text-[13px] font-medium text-gray-600">{plan.description}</p>
                               <div className="space-y-2 mt-3">
                                 {plan.itinerary?.map((item: any, i: number) => (
-                                  <div key={i} className="flex gap-3 items-start p-2.5 rounded-xl" style={{ background: 'rgba(0,0,0,0.2)' }}>
-                                    <div className="text-xs font-bold shrink-0 mt-0.5" style={{ color: '#4ade80' }}>{item.time}</div>
+                                  <div key={i} className="flex gap-3 items-start p-2.5 rounded-xl bg-white border border-fuchsia-100">
+                                    <div className="text-xs font-bold shrink-0 mt-0.5 text-fuchsia-500">{item.time}</div>
                                     <div>
-                                      <div className="text-sm font-semibold text-white">{item.activity}</div>
-                                      <div className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>📍 {item.location}</div>
+                                      <div className="text-sm font-semibold text-gray-800">{item.activity}</div>
+                                      <div className="text-xs font-medium text-gray-500 mt-0.5">📍 {item.location}</div>
                                     </div>
                                   </div>
                                 ))}
@@ -355,19 +353,17 @@ export function Conversation({ session, conversationId, onBack }: ConversationPr
                     </div>
                   ) : (
                     // Regular Message
-                    <div className={`px-4 py-2.5 rounded-2xl text-sm ${isOwn
-                      ? 'rounded-br-sm text-white'
-                      : 'rounded-bl-sm'
+                    <div className={`px-4 py-2.5 rounded-2xl text-[15px] shadow-sm ${isOwn
+                      ? 'rounded-br-sm text-white bg-gradient-to-r from-pink-500 to-purple-500'
+                      : 'rounded-bl-sm bg-white text-gray-800 border border-gray-100'
                       }`}
                       style={{
-                        background: isOwn ? 'linear-gradient(135deg, #f43f5e, #d946ef)' : 'rgba(255,255,255,0.08)',
-                        color: isOwn ? '#fff' : 'rgba(255,255,255,0.9)',
-                        border: isOwn ? 'none' : '1px solid rgba(255,255,255,0.1)'
+                        color: isOwn ? '#fff' : '#1f2937'
                       }}>
                       <p className="whitespace-pre-wrap leading-relaxed">{msg.content}</p>
                     </div>
                   )}
-                  <p className={`text-[10px] mt-1.5 ${isOwn ? 'text-right mr-1' : 'ml-1'}`} style={{ color: 'rgba(255,255,255,0.35)' }}>
+                  <p className={`text-[10px] mt-1.5 font-medium ${isOwn ? 'text-right mr-1 text-gray-400' : 'ml-1 text-gray-400'}`}>
                     {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
@@ -382,13 +378,13 @@ export function Conversation({ session, conversationId, onBack }: ConversationPr
       <AnimatePresence>
         {messages.length > 0 && !generatingDatePlan && !pendingDatePlan && !generatingRescuer && !staleSuggestion && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} className="px-3 pb-2 flex justify-center gap-2">
-            <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateDatePlan} className="px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 shadow-lg" style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>
-              <Sparkles className="w-3.5 h-3.5" style={{ color: '#d946ef' }} /> Plan a Date
+            <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateDatePlan} className="px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 shadow-md bg-white border border-gray-100 text-gray-800">
+              <Sparkles className="w-3.5 h-3.5 text-purple-600" /> Plan a Date
             </motion.button>
             {/* Only show rescuer if the last message isn't ours and is "older" (simulate for now by just showing it if there are messages) */}
             {messages[messages.length - 1]?.senderId !== session.user.id && (
-              <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateRescuer} className="px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 shadow-lg" style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}>
-                <Shield className="w-3.5 h-3.5" style={{ color: '#38bdf8' }} /> Vibe Check
+              <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateRescuer} className="px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 shadow-md bg-white border border-gray-100 text-gray-800">
+                <Shield className="w-3.5 h-3.5 text-blue-500" /> Vibe Check
               </motion.button>
             )}
           </motion.div>
@@ -396,35 +392,35 @@ export function Conversation({ session, conversationId, onBack }: ConversationPr
 
         {generatingDatePlan && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="px-4 pb-3 flex justify-center">
-            <div className="px-4 py-2.5 rounded-full flex items-center gap-3" style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(217,70,239,0.3)' }}>
-              <div className="flex gap-1.5"><span className="typing-dot" /><span className="typing-dot" /><span className="typing-dot" /></div>
-              <span className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>Crafting the perfect date...</span>
+            <div className="px-4 py-2.5 rounded-full flex items-center gap-3 bg-white border border-purple-100 shadow-sm">
+              <div className="flex gap-1.5"><span className="typing-dot bg-purple-500" /><span className="typing-dot bg-purple-500" /><span className="typing-dot bg-purple-500" /></div>
+              <span className="text-xs font-medium text-gray-600">Crafting the perfect date...</span>
             </div>
           </motion.div>
         )}
 
         {generatingRescuer && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="px-4 pb-3 flex justify-center">
-            <div className="px-4 py-2.5 rounded-full flex items-center gap-3" style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(56,189,248,0.3)' }}>
-              <div className="flex gap-1.5"><span className="typing-dot" /><span className="typing-dot" /><span className="typing-dot" /></div>
-              <span className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>Thinking of something to say...</span>
+            <div className="px-4 py-2.5 rounded-full flex items-center gap-3 bg-white border border-blue-100 shadow-sm">
+              <div className="flex gap-1.5"><span className="typing-dot bg-blue-500" /><span className="typing-dot bg-blue-500" /><span className="typing-dot bg-blue-500" /></div>
+              <span className="text-xs font-medium text-gray-600">Thinking of something to say...</span>
             </div>
           </motion.div>
         )}
 
         {pendingDatePlan && !generatingDatePlan && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} className="px-3 pb-3">
-            <div className="p-3 rounded-2xl space-y-3" style={{ background: 'linear-gradient(135deg, rgba(217,70,239,0.15), rgba(139,92,246,0.15))', border: '1px solid rgba(217,70,239,0.4)', backdropFilter: 'blur(12px)' }}>
+            <div className="p-3 rounded-2xl space-y-3 bg-white border border-purple-100 shadow-sm">
               <div className="flex justify-between items-center">
-                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#d946ef' }}>Date Plan Ready</span>
-                <button onClick={() => setPendingDatePlan(null)} className="p-1 rounded-full btn-glass"><X className="w-3.5 h-3.5 text-white/70" /></button>
+                <span className="text-xs font-bold uppercase tracking-wider text-purple-600">Date Plan Ready</span>
+                <button onClick={() => setPendingDatePlan(null)} className="p-1 rounded-full bg-gray-50 text-gray-400 hover:bg-gray-100"><X className="w-3.5 h-3.5" /></button>
               </div>
-              <div className="text-sm font-semibold text-white">{pendingDatePlan.title}</div>
+              <div className="text-sm font-semibold text-gray-900">{pendingDatePlan.title}</div>
               <div className="flex gap-2 pt-1">
-                <motion.button whileTap={{ scale: 0.95 }} onClick={sendDatePlan} className="flex-1 btn-glow py-2 rounded-xl text-xs font-bold flex justify-center items-center gap-1">
+                <motion.button whileTap={{ scale: 0.95 }} onClick={sendDatePlan} className="flex-1 btn-glow py-2 rounded-xl text-xs font-bold flex justify-center items-center gap-1 text-white">
                   <Send className="w-3 h-3" /> Suggest This
                 </motion.button>
-                <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateDatePlan} className="btn-glass px-3 py-2 rounded-xl text-xs flex justify-center items-center">
+                <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateDatePlan} className="bg-gray-50 text-gray-600 hover:bg-gray-100 px-3 py-2 rounded-xl text-xs flex justify-center items-center">
                   <RefreshCw className="w-3.5 h-3.5" />
                 </motion.button>
               </div>
@@ -434,20 +430,20 @@ export function Conversation({ session, conversationId, onBack }: ConversationPr
 
         {staleSuggestion && !generatingRescuer && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} className="px-3 pb-3">
-            <div className="p-3 rounded-2xl space-y-2" style={{ background: 'linear-gradient(135deg, rgba(56,189,248,0.15), rgba(59,130,246,0.15))', border: '1px solid rgba(56,189,248,0.4)', backdropFilter: 'blur(12px)' }}>
+            <div className="p-3 rounded-2xl space-y-2 bg-white border border-blue-100 shadow-sm">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                  <Shield className="w-3.5 h-3.5" style={{ color: '#38bdf8' }} />
-                  <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#38bdf8' }}>AI Follow-up</span>
+                  <Shield className="w-3.5 h-3.5 text-blue-500" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-blue-500">AI Follow-up</span>
                 </div>
-                <button onClick={() => setStaleSuggestion(null)} className="p-1 rounded-full btn-glass"><X className="w-3.5 h-3.5 text-white/70" /></button>
+                <button onClick={() => setStaleSuggestion(null)} className="p-1 rounded-full bg-gray-50 text-gray-400 hover:bg-gray-100"><X className="w-3.5 h-3.5" /></button>
               </div>
-              <div className="text-sm text-white italic">"{staleSuggestion}"</div>
+              <div className="text-[13px] font-medium text-gray-800 italic">"{staleSuggestion}"</div>
               <div className="flex gap-2 pt-1">
-                <motion.button whileTap={{ scale: 0.95 }} onClick={() => { setNewMessage(staleSuggestion); setStaleSuggestion(null); }} className="flex-1 btn-glow py-2 rounded-xl text-xs font-bold flex justify-center items-center gap-1" style={{ background: '#38bdf8', color: '#000' }}>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => { setNewMessage(staleSuggestion); setStaleSuggestion(null); }} className="flex-1 py-2 rounded-xl text-xs font-bold flex justify-center items-center gap-1 bg-blue-500 text-white shadow-sm hover:bg-blue-600">
                   <Send className="w-3 h-3" /> Use This
                 </motion.button>
-                <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateRescuer} className="btn-glass px-3 py-2 rounded-xl text-xs flex justify-center items-center">
+                <motion.button whileTap={{ scale: 0.95 }} onClick={handleGenerateRescuer} className="bg-gray-50 text-gray-600 hover:bg-gray-100 px-3 py-2 rounded-xl text-xs flex justify-center items-center">
                   <RefreshCw className="w-3.5 h-3.5" />
                 </motion.button>
               </div>
@@ -457,19 +453,17 @@ export function Conversation({ session, conversationId, onBack }: ConversationPr
       </AnimatePresence>
 
       {/* Input Area */}
-      <div className="p-3 pb-safe bg-black/40 backdrop-blur-xl border-t border-white/10 flex-shrink-0">
+      <div className="p-3 pb-safe bg-white border-t border-gray-100 flex-shrink-0 shadow-sm z-10 relative">
         <form onSubmit={sendMessage} className="flex gap-2 relative">
           <input
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder={otherParticipant?.id?.startsWith('sample') ? "Message this demo profile..." : "Type a message..."}
             disabled={sending}
-            className="flex-1 pl-4 pr-12 py-3 rounded-2xl text-sm outline-none transition-all"
+            className="flex-1 pl-4 pr-12 py-3 rounded-2xl text-[15px] font-medium outline-none transition-all bg-gray-50 text-gray-900 border focus:bg-white placeholder:text-gray-400"
             style={{
-              background: 'rgba(255,255,255,0.08)',
-              border: newMessage.trim() ? '1px solid rgba(217,70,239,0.4)' : '1px solid rgba(255,255,255,0.15)',
-              color: '#fff',
-              boxShadow: newMessage.trim() ? '0 0 15px rgba(217,70,239,0.15)' : 'none'
+              borderColor: newMessage.trim() ? '#fbcfe8' : '#e5e7eb',
+              boxShadow: newMessage.trim() ? '0 0 0 4px #fdf2f8' : 'none'
             }}
           />
           <motion.button
